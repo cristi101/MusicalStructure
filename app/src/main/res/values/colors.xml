@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="background">@android:color/holo_blue_dark</color>
+    <color name="text">#ffffff</color>
+
+    <color name="spotify_green">#1DB954</color>
+    <color name="spotify_white">#FFFFFF</color>
+    <color name="spotify_black">#191414</color>
+
+    <!-- settings colors -->
+    <color name="settings_text_color">@android:color/white</color>
+    <color name="settings_accent">@android:color/holo_red_dark</color>
+    <color name="preference_fallback_accent_color">@color/settings_accent</color>
+
+    <!-- tab colors -->
+    <color name="tabColor">@android:color/holo_red_dark</color>
+    <color name="tabTextColor">#e0e0e0</color>
+    <color name="tabSelectedTextColor">#ffffff</color>
+    <color name="tabIndicatorColor">#ffffff</color>
+
+    <color name="frame">#ffffff</color>
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap">
+
+        <TextView
+            android:id="@+id/track"
+            style="@style/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/gap"
+            android:layout_weight="0" />
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/duration"
+            style="@style/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/gap"
+            android:layout_weight="0" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/artists"
+        style="@style/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

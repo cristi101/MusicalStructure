@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin">16dp</dimen>
+    <dimen name="textSize">20sp</dimen>
+    <dimen name="gap">8dp</dimen>
+    <dimen name="tab_height">24dp</dimen>
+
+    <dimen name="button_radius">10dp</dimen>
+    <dimen name="button_stroke_width">2dp</dimen>
+    <dimen name="button_padding">4dp</dimen>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/gap"
+    android:layout_marginTop="@dimen/gap"
+    android:background="@drawable/button"
+    android:minHeight="0dp"
+    android:minWidth="0dp"
+    android:text="@string/next_page"
+    android:textAllCaps="false"
+    android:textColor="@color/tabSelectedTextColor" />

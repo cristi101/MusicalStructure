@@ -1,0 +1,53 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+
+    <style name="dialog" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+
+
+    <style name="settings" parent="AppTheme">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColor">@color/settings_text_color</item>
+        <item name="android:textColorHighlight">@color/settings_accent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/textSize</item>
+        <item name="alertDialogTheme">@style/dialog</item>
+        <item name="colorAccent">@color/settings_accent</item>
+    </style>
+
+    <style name="tabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textStyle">bold</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="tabs">
+        <item name="tabMode">fixed</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabPadding">0dp</item>
+        <item name="tabBackground">@color/tabColor</item>
+        <item name="tabIndicatorColor">@color/tabIndicatorColor</item>
+        <item name="tabTextColor">@color/tabTextColor</item>
+        <item name="tabSelectedTextColor">@color/tabSelectedTextColor</item>
+        <item name="tabTextAppearance">@style/tabText</item>
+    </style>
+
+    <style name="name" parent="AppTheme">
+        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text</item>
+    </style>
+
+    <style name="info" parent="AppTheme">
+        <item name="android:textAppearance">@android:style/TextAppearance.Small</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/text</item>
+    </style>
+</resources>

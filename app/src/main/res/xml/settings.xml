@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:defaultValue="@string/passwordDefault"
+        android:hint="@string/password_hint"
+        android:inputType="textVisiblePassword"
+        android:key="@string/password"
+        android:maxLength="36"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="@string/passwordSummary"
+        android:title="@string/passwordTitle" />
+</PreferenceScreen>

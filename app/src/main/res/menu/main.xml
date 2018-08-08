@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/locked"
+        android:icon="@drawable/locked"
+        android:title="@string/locked_title"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/unlocked"
+        android:icon="@drawable/unlocked"
+        android:title="@string/unlocked_title"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/settings"
+        android:title="@string/settings_title"
+        app:showAsAction="always" />
+</menu>

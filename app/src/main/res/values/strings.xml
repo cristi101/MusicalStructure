@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Musical Structure</string>
+
+    <!-- LoginCallback activity constants -->
+    <string name="activity_login_title">Login</string>
+    <string name="login_text">You have to login to Spotify</string>
+    <string name="wait">Please wait for the browser to start</string>
+    <string name="return_to_app">Return to app</string>
+    <string name="try_again">Try again!</string>
+    <string name="spotify_logo_description">Spotify logo</string>
+
+    <!-- password dialog -->
+    <string name="dialog_title">Password</string>
+    <string name="dialog_message">You can change it from settings.</string>
+    <string name="ok_label">OK</string>
+    <string name="cancel_label">Cancel</string>
+
+    <!--settings -->
+    <string name="settings_title">Settings</string>
+    <string name="passwordTitle">Password</string>
+    <string name="password_hint">Enter the password here</string>
+    <string name="passwordDefault">****</string>
+    <string name="passwordSummary">for decoding the API key</string>
+    <string name="password">password</string>
+
+
+    <string name="artist_title">Artist</string>
+    <string name="album_title">Album</string>
+    <string name="track_title">Track</string>
+
+    <string name="locked_title">Login</string>
+    <string name="unlocked_title">Logout</string>
+    <string name="search_desc">Push to search</string>
+    <string name="search_hint">Search for artist, album and song</string>
+
+    <string name="category_artists">Artists</string>
+    <string name="category_albums">Albums</string>
+    <string name="category_tracks">Songs</string>
+
+    <string name="next_page">Load next page!</string>
+    <string name="prev_page">Load previous page!</string>
+    <string name="no_artists">No artists found!</string>
+    <string name="no_albums">No albums found!</string>
+    <string name="no_tracks">No songs found!</string>
+
+    <string name="artist_picture_desc">Artist picture</string>
+    <string name="album_picture_desc">Album picture</string>
+</resources>
