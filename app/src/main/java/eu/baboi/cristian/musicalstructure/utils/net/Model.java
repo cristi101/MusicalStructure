@@ -89,7 +89,7 @@ public class Model {
     private Model() {
     }
 
-    // data model classes
+    // data    model classes
 
     public static class Context {
         String type;
@@ -98,14 +98,10 @@ public class Model {
         String uri;
 
         private Context(JSONObject json) {
-            try {
-                type = json.getString("type");
-                href = json.getString("href");
-                external_urls = new ExternalUrls(json.getJSONObject("external_urls"));
-                uri = json.getString("uri");
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Wrong JSON object", e);
-            }
+            type = getString("type", json);
+            href = getString("href", json);
+            uri = getString("uri", json);
+            external_urls = genericParseObject(ExternalUrls.class, "external_urls", json);
         }
     }
 
@@ -114,11 +110,7 @@ public class Model {
 
         private LinkedTrack(JSONObject json) {
             super(json);
-            try {
-                id = json.getString("id");
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Wrong JSON object", e);
-            }
+            id = getString("id", json);
         }
     }
 
@@ -127,11 +119,7 @@ public class Model {
 
         private Common(JSONObject json) {
             super(json);
-            try {
-                name = json.getString("name");
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Wrong JSON object", e);
-            }
+            name = getString("name", json);
         }
     }
 
@@ -150,17 +138,7 @@ public class Model {
 
         private AlbumTrackCommon(JSONObject json) {
             super(json);
-            try {
-                JSONArray artists = json.getJSONArray("artists");
-                int length = artists.length();
-                if (length > 0) {
-                    this.artists = new SimplifiedArtist[length];
-                    for (int i = 0; i < length; i++)
-                        this.artists[i] = new SimplifiedArtist(artists.getJSONObject(i));
-                }
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Wrong JSON object", e);
-            }
+            artists = genericParseArray(SimplifiedArtist.class, "artists", json);
         }
     }
 
@@ -175,22 +153,11 @@ public class Model {
 
         private SimplifiedAlbum(JSONObject json) {
             super(json);
-            try {
-                album_group = json.optString("album_group");//optional
-                album_type = json.getString("album_type");
-                release_date = json.getString("release_date");
-                release_date_precision = json.getString("release_date_precision");
-                //images
-                JSONArray images = json.getJSONArray("images");
-                int length = images.length();
-                if (length > 0) {
-                    this.images = new Image[length];
-                    for (int i = 0; i < length; i++)
-                        this.images[i] = new Image(images.getJSONObject(i));
-                }
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Wrong JSON object", e);
-            }
+            album_group = getString("album_group", json);
+            album_type = getString("album_type", json);
+            release_date = getString("release_date", json);
+            release_date_precision = getString("release_date_precision", json);
+            images = genericParseArray(Image.class, "images", json);
         }
 
         @Override
@@ -218,6 +185,9 @@ public class Model {
 
         private SimplifiedTrack(JSONObject json) {
             super(json);
+            preview_url = getString("preview_url", json);
+            linked_from = genericParseObject(LinkedTrack.class, "linked_from", json);
+
             try {
                 disc_number = json.getInt("disc_number");
                 track_number = json.getInt("track_number");
@@ -225,11 +195,6 @@ public class Model {
 
                 explicit = json.getBoolean("explicit");
                 is_playable = json.optBoolean("is_playable");
-
-                JSONObject linked = json.optJSONObject("linked_from");
-                if (linked != null) linked_from = new LinkedTrack(linked);
-
-                preview_url = json.getString("preview_url");
 
             } catch (Exception e) {
                 throw new IllegalArgumentException("Wrong JSON object", e);
@@ -249,8 +214,8 @@ public class Model {
 
         private Artist(JSONObject json) {
             super(json);
+            images = genericParseArray(Image.class, "images", json);
             try {
-                // genres
                 JSONArray genres = json.getJSONArray("genres");
                 int length = genres.length();
                 if (length > 0) {
@@ -258,18 +223,7 @@ public class Model {
                     for (int i = 0; i < length; i++)
                         this.genres[i] = genres.getString(i);
                 }
-
                 popularity = json.getInt("popularity");
-
-                // images
-                JSONArray images = json.getJSONArray("images");
-                length = images.length();
-                if (length > 0) {
-                    this.images = new Image[length];
-                    for (int i = 0; i < length; i++)
-                        this.images[i] = new Image(images.getJSONObject(i));
-                }
-
             } catch (Exception e) {
                 throw new IllegalArgumentException("Wrong JSON object", e);
             }
@@ -315,6 +269,11 @@ public class Model {
 
         private Album(JSONObject json) {
             super(json);
+            label = getString("label", json);
+            external_ids = genericParseObject(ExternalIds.class, "external_ids", json);
+            copyrights = genericParseArray(Copyright.class, "copyrights", json);
+            tracks = genericParseObject(TrackPaging.class, "tracks", json);
+
             try {
                 JSONArray genres = json.getJSONArray("genres");
                 int length = genres.length();
@@ -323,20 +282,7 @@ public class Model {
                     for (int i = 0; i < length; i++)
                         this.genres[i] = genres.getString(i);
                 }
-
                 popularity = json.getInt("popularity");
-                external_ids = new ExternalIds(json.getJSONObject("external_ids"));
-                label = json.getString("label");
-
-                JSONArray copyrights = json.getJSONArray("copyrights");
-                length = copyrights.length();
-                if (length > 0) {
-                    this.copyrights = new Copyright[length];
-                    for (int i = 0; i < length; i++)
-                        this.copyrights[i] = new Copyright(copyrights.getJSONObject(i));
-                }
-
-                tracks = new TrackPaging(json.getJSONObject("tracks"));
             } catch (Exception e) {
                 throw new IllegalArgumentException("Wrong JSON object", e);
             }
@@ -368,10 +314,11 @@ public class Model {
 
         private Track(JSONObject json) {
             super(json);
+            external_ids = genericParseObject(ExternalIds.class, "external_ids", json);
+            album = genericParseObject(SimplifiedAlbum.class, "album", json);
+
             try {
                 popularity = json.getInt("popularity");
-                external_ids = new ExternalIds(json.getJSONObject("external_ids"));
-                album = new SimplifiedAlbum(json.getJSONObject("album"));
             } catch (Exception e) {
                 throw new IllegalArgumentException("Wrong JSON object", e);
             }
@@ -447,8 +394,8 @@ public class Model {
             try {
                 expires_at = System.currentTimeMillis();
                 expires_at += Long.valueOf(json.getString("expires_in")) * 1000 - 1000;
-                access_token = json.getString("access_token");
-                refresh_token = json.getString("refresh_token");
+                access_token = getString("access_token", json);
+                refresh_token = getString("refresh_token", json);
             } catch (Exception e) {
                 throw new IllegalArgumentException("Wrong JSON object", e);
             }
@@ -464,7 +411,7 @@ public class Model {
             try {
                 expires_at = System.currentTimeMillis();
                 expires_at += Long.valueOf(json.getString("expires_in")) * 1000 - 1000;
-                access_token = json.getString("access_token");
+                access_token = getString("access_token", json);
             } catch (Exception e) {
                 throw new IllegalArgumentException("Wrong JSON object", e);
             }
@@ -480,7 +427,7 @@ public class Model {
             try {
                 JSONObject error = json.getJSONObject("error");
                 status = error.getInt("status");
-                message = error.getString("message");
+                message = getString("message", error);
             } catch (Exception e) {
                 status = 0;
                 message = e.getMessage();
@@ -494,8 +441,8 @@ public class Model {
 
         private AuthenticationError(JSONObject json) {
             try {
-                this.error = json.getString("error");
-                this.error_description = json.optString("error_description");
+                this.error = getString("error", json);
+                this.error_description = getString("error_description", json);
             } catch (Exception e) {
                 this.error_description = e.getMessage();
             }
@@ -535,17 +482,13 @@ public class Model {
 
         private Paging(JSONObject json) {
             try {
-                href = json.getString("href");
+                href = getString("href", json);
                 limit = json.getInt("limit");
                 total = json.getInt("total");
                 offset = json.getInt("offset");
 
-                if (json.isNull("previous")) previous = null;
-                else previous = json.getString("previous");
-
-                if (json.isNull("next")) next = null;
-                else next = json.getString("next");
-
+                previous = getString("previous", json);
+                next = getString("next", json);
             } catch (Exception e) {
                 throw new IllegalArgumentException("Wrong Paging JSON object", e);
             }
@@ -685,11 +628,7 @@ public class Model {
         Map<String, String> urls;
 
         private ExternalUrls(JSONObject json) {
-            try {
-                urls = get(json);
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Wrong ExternalUrls JSON object", e);
-            }
+            urls = get(json);
         }
     }
 
@@ -698,11 +637,7 @@ public class Model {
         Map<String, String> ids;
 
         private ExternalIds(JSONObject json) {
-            try {
-                ids = get(json);
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Wrong ExternalIds JSON object", e);
-            }
+            ids = get(json);
         }
     }
 
@@ -712,12 +647,8 @@ public class Model {
         String type;
 
         private Copyright(JSONObject json) {
-            try {
-                text = json.getString("text");
-                type = json.getString("type");
-            } catch (JSONException e) {
-                throw new IllegalArgumentException("Wrong Copyright JSON object", e);
-            }
+            text = getString("text", json);
+            type = getString("type", json);
         }
     }
 
@@ -730,7 +661,7 @@ public class Model {
             try {
                 height = image.getInt("height");
                 width = image.getInt("width");
-                url = image.getString("url");
+                url = getString("url", image);
             } catch (JSONException e) {
                 throw new IllegalArgumentException("Wrong Image JSON object", e);
             }
@@ -740,7 +671,7 @@ public class Model {
     // utility methods
 
     //get a JSON object into a Map<String,String>
-    private static Map<String, String> get(JSONObject json) throws JSONException {
+    private static Map<String, String> get(JSONObject json) {
         if (json == null) return null;
 
         Map<String, String> map = null;
@@ -750,7 +681,7 @@ public class Model {
             Iterator<String> iterator = json.keys();
             while (iterator.hasNext()) {
                 String key = iterator.next();
-                String value = json.getString(key);
+                String value = getString(key, json);
                 map.put(key, value);
             }
         }
@@ -1156,6 +1087,14 @@ public class Model {
     //set the access token
     public static void setToken(String token) {
         TOKEN = token;
+    }
+
+
+    private static String getString(String key, JSONObject json) {
+        if (TextUtils.isEmpty(key)) return null;
+        if (json == null) return null;
+        if (json.isNull(key)) return null;
+        return json.optString(key, null);
     }
 
 }

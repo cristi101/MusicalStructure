@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 
 
 public class SoundPlayer implements AudioManager.OnAudioFocusChangeListener, MediaPlayer.OnCompletionListener {
+    private static final String LOG = SoundPlayer.class.getName();
+
     private MediaPlayer mediaPlayer;
     private final AudioManager audioManager;
 
@@ -15,8 +17,9 @@ public class SoundPlayer implements AudioManager.OnAudioFocusChangeListener, Med
         Uri uri = Uri.parse(url);
         audioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
 
-        //todo check for nulls
         mediaPlayer = MediaPlayer.create(activity, uri);
+        if (mediaPlayer == null) return;
+
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             mediaPlayer.setOnCompletionListener(this);
