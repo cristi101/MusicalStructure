@@ -5,19 +5,26 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
+// see https://developer.android.com/topic/performance/graphics/load-bitmap
 public class Picture {
     private static final String LOG = Picture.class.getName();
 
 
     public static void setImageUri(ImageView v, Uri uri, int reqWidth, int reqHeight) {
         if (v == null) return;
-        v.setImageBitmap(decodeSampledBitmap(v.getContext(), uri, reqWidth, reqHeight));
+
+        if (uri == null) v.setVisibility(View.GONE);
+        else v.setVisibility(View.VISIBLE);
+
+        Bitmap bitmap = decodeSampledBitmap(v.getContext(), uri, reqWidth, reqHeight);
+        if (bitmap != null) v.setImageBitmap(bitmap);
     }
 
     private static InputStream uriToStream(Context context, Uri uri) {

@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
@@ -37,7 +38,7 @@ public class Model {
     public static final String LOGOUT_URL = "https://accounts.spotify.com/en/logout";
 
     public static final String CLIENT = "05865a6984e2407f980620ee17a2368e";
-    public static final String SECRET = "{x.x-\"0  f{c`xu,-+x'5!wk+d`$z\u007F{+";
+    public static final String SECRET = "{zQ%NE0EC'{$)zyORTzH5Fw,L+)Gz $T";
     public static final String PASSWORD = "once upon a time";
     public static final String PASSWORD_KEY = "password";
 
@@ -779,14 +780,14 @@ public class Model {
 
     // various ways to build an uri
     private static Uri buildUri(String url) {
-        if (url == null || url.isEmpty()) return null;
+        if (TextUtils.isEmpty(url)) return null;
         return Uri.parse(url);
     }
 
     // build a search url
     private static Uri buildUri(String query, String type, int limit, int offset) {
-        if (query == null || query.isEmpty()) return null;
-        if (type == null || type.isEmpty()) return null;
+        if (TextUtils.isEmpty(query)) return null;
+        if (TextUtils.isEmpty(type)) return null;
         if (limit < 1 || limit > 50) return null;
         if (offset < 0) return null;
         Uri.Builder builder = Uri.parse(SEARCH_URL).buildUpon();
@@ -799,8 +800,8 @@ public class Model {
 
     // append id and key to url and query parameters limit and offset
     private static Uri buildUri(String url, String id, String key, int limit, int offset) {
-        if (url == null || url.isEmpty()) return null;
-        if (id == null || id.isEmpty()) return null;
+        if (TextUtils.isEmpty(url)) return null;
+        if (TextUtils.isEmpty(id)) return null;
         if (limit < 1 || limit > 50) return null;
         if (offset < 0) return null;
 
@@ -814,8 +815,8 @@ public class Model {
 
     // append id to the end
     private static Uri buildUri(String url, String id) {
-        if (url == null || url.isEmpty()) return null;
-        if (id == null || id.isEmpty()) return null;
+        if (TextUtils.isEmpty(url)) return null;
+        if (TextUtils.isEmpty(id)) return null;
         Uri.Builder builder = Uri.parse(url).buildUpon();
         builder.appendPath(id);
         return builder.build();
@@ -823,7 +824,7 @@ public class Model {
 
     // append query parameter with a list of ids
     private static Uri buildUri(String url, String[] ids, int max) {
-        if (url == null || url.isEmpty()) return null;
+        if (TextUtils.isEmpty(url)) return null;
         if (ids == null) return null;
 
         int length = ids.length;
@@ -836,7 +837,7 @@ public class Model {
         int count;
         for (count = pos = 0; pos < length; pos++) {
             String id = ids[pos];
-            if (id != null && !id.isEmpty()) {
+            if (!TextUtils.isEmpty(id)) {
                 count++;
                 stringBuilder.append(id);
                 break;
@@ -844,7 +845,7 @@ public class Model {
         }
         for (pos++; pos < length; pos++) {
             String id = ids[pos];
-            if (id != null && !id.isEmpty()) {
+            if (!TextUtils.isEmpty(id)) {
                 count++;
                 if (count > max) break;
                 stringBuilder.append(',');
@@ -898,7 +899,7 @@ public class Model {
         if (result == null) return null;
         if (result.code != HttpURLConnection.HTTP_OK) {
             Error error = null;
-            if (result.data != null && !result.data.isEmpty())
+            if (!TextUtils.isEmpty(result.data))
                 error = genericParseObject(Error.class, result.data);
             if (error != null) throw error;
             return null;
@@ -911,7 +912,7 @@ public class Model {
     //convert for string to json parse tree
     private static <T> JSONObject jsonObject(Class<T> which, String json) {
         if (which == null) return null;
-        if (json == null || json.isEmpty()) return null;
+        if (TextUtils.isEmpty(json)) return null;
         JSONObject result = null;
         try {
             result = new JSONObject(json);
@@ -923,7 +924,7 @@ public class Model {
 
     private static <T> JSONArray jsonArray(Class<T> which, String json) {
         if (which == null) return null;
-        if (json == null || json.isEmpty()) return null;
+        if (TextUtils.isEmpty(json)) return null;
         JSONArray result = null;
         try {
             result = new JSONArray(json);
@@ -936,13 +937,13 @@ public class Model {
     // return field with specified key
     private static <T> JSONObject getObject(String key, JSONObject json) {
         if (json == null) return null;
-        if (key == null || key.isEmpty()) return null;
+        if (TextUtils.isEmpty(key)) return null;
         return json.optJSONObject(key);
     }
 
     private static <T> JSONArray getArray(String key, JSONObject json) {
         if (json == null) return null;
-        if (key == null || key.isEmpty()) return null;
+        if (TextUtils.isEmpty(key)) return null;
         return json.optJSONArray(key);
     }
 
@@ -1051,7 +1052,7 @@ public class Model {
 
     // add an URL encoded parameter
     private static void addURLParameter(StringBuilder builder, String key, String value) {
-        if (builder == null || key == null || value == null) return;
+        if (builder == null || TextUtils.isEmpty(key) || TextUtils.isEmpty(value)) return;
         try {
             builder.append(URLEncoder.encode(key, "UTF-8"));
             builder.append('=');
@@ -1069,7 +1070,7 @@ public class Model {
 
     // construct Basic Authorization token
     private static String getAuthorizationCode(DataStore dataStore) {
-        String s = String.format("%s:%s", CLIENT, Key.getApiKey(getPassword(dataStore), SECRET));
+        String s = String.format("%s:%s", CLIENT, Key.decodeApiKey(getPassword(dataStore), SECRET));
         return Base64.encodeToString(s.getBytes(Charset.forName("UTF-8")), Base64.NO_WRAP);
     }
 
@@ -1101,7 +1102,7 @@ public class Model {
         if (result == null) return null;
         if (result.code != HttpURLConnection.HTTP_OK) {
             AuthenticationError error = null;
-            if (result.data != null && !result.data.isEmpty())
+            if (!TextUtils.isEmpty(result.data))
                 error = genericParseObject(AuthenticationError.class, result.data);
             if (error != null) throw error;
             return null;

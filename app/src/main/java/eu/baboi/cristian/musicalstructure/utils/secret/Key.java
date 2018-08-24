@@ -1,11 +1,13 @@
 package eu.baboi.cristian.musicalstructure.utils.secret;
 
+import android.text.TextUtils;
+
 public class Key {
 
     // return the password concatenated to itself to the length of key
     private static String getPassword(String password, String key) {
-        if (password == null || password.isEmpty()) return key;
-        if (key == null || key.isEmpty()) return password;
+        if (TextUtils.isEmpty(password)) return key;
+        if (TextUtils.isEmpty(key)) return password;
 
         int passwordLength = password.length();
         int keyLength = key.length();
@@ -22,26 +24,56 @@ public class Key {
     }
 
     // combine password with key and return a new string with the data
-    private static String combine(String password, String key) {
+    private static String encode(String password, String key) {
         if (password == null) return key;
         if (key == null) return password;
+
         int passwordLength = password.length();
         int keyLength = key.length();
         int minLength = passwordLength < keyLength ? passwordLength : keyLength;
 
         StringBuilder builder = new StringBuilder(key);
         for (int i = 0; i < minLength; i++) {
-            int ch1 = builder.charAt(i) - 32;
-            int ch2 = password.charAt(i) - 32;
-            char ch = (char) ((ch1 ^ ch2) + 32);
-            builder.setCharAt(i, ch);
+            int ch1 = builder.charAt(i);
+            int ch2 = password.charAt(i);
+            if (ch1 >= 32 && ch1 <= 126) {
+                int x = ch1 + ch2 - 32;
+                if (x > 126) x -= 95;
+                builder.setCharAt(i, (char) x);
+            }
         }
         return builder.toString();
     }
 
-    // extract the api key from password and key
-    public static String getApiKey(String password, String key) {
-        password = getPassword(password, key);//extend or truncate password to the length of key
-        return combine(password, key);
+    private static String decode(String password, String key) {
+        if (password == null) return key;
+        if (key == null) return password;
+
+        int passwordLength = password.length();
+        int keyLength = key.length();
+        int minLength = passwordLength < keyLength ? passwordLength : keyLength;
+
+        StringBuilder builder = new StringBuilder(key);
+        for (int i = 0; i < minLength; i++) {
+            int ch1 = builder.charAt(i);
+            int ch2 = password.charAt(i);
+            if (ch1 >= 32 && ch1 <= 126) {
+                int x = 127 + ch1 - ch2;
+                if (x > 126) x -= 95;
+                builder.setCharAt(i, (char) x);
+            }
+        }
+        return builder.toString();
+    }
+
+    // scramble only printable ASCII chars
+    public static String decodeApiKey(String password, String code) {
+        password = getPassword(password, code);
+        return decode(password, code);
+    }
+
+    public static String encodeApiKey(String password, String key) {
+        password = getPassword(password, key);
+        return encode(password, key);
     }
 }

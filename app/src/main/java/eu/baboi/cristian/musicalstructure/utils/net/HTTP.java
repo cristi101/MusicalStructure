@@ -1,6 +1,7 @@
 package eu.baboi.cristian.musicalstructure.utils.net;
 
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -55,7 +56,7 @@ public final class HTTP {
 
     // transform a string to an URL
     private static URL createUrl(String url) {
-        if (url == null || url.trim().length() == 0) return null;
+        if (TextUtils.isEmpty(url)) return null;
         URL lUrl = null;
         try {
             lUrl = new URL(url);
@@ -86,7 +87,7 @@ public final class HTTP {
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("Content-Length", Integer.toString(bytes.length));
 
-            if (token != null)
+            if (!TextUtils.isEmpty(token))
                 connection.setRequestProperty("Authorization", "Basic " + token);
 
             connection.setDoInput(true);
@@ -137,7 +138,7 @@ public final class HTTP {
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("Content-Type", "application/json");
 
-            if (token != null)
+            if (!TextUtils.isEmpty(token))
                 connection.setRequestProperty("Authorization", "Bearer " + token);
 
             connection.connect();
@@ -217,7 +218,7 @@ public final class HTTP {
 
                 return Uri.fromFile(file);
             } else {
-                Log.e(LOG, String.format("Error connecting to news code: %d url: %s", connection.getResponseCode(), url.toString()));
+                Log.e(LOG, String.format("Error getting picture code: %d url: %s", connection.getResponseCode(), url.toString()));
             }
 
         } catch (IOException e) {

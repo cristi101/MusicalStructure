@@ -3,6 +3,7 @@ package eu.baboi.cristian.musicalstructure.adapters.viewholders;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,7 +54,7 @@ public class SimplifiedTracksViewHolder extends ViewHolder<Model.SimplifiedTrack
     }
 
     public void onClick(View v) {
-        if (idTrack == null) return;
+        if (TextUtils.isEmpty(idTrack)) return;
         Intent intent = new Intent(mContext, Track.class);
         intent.putExtra(Model.ID_KEY, idTrack);
         mContext.startActivity(intent);

@@ -11,7 +11,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -106,6 +108,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupActionBar();
+
         tvQuery = findViewById(R.id.query);
         tvQuery.setOnEditorActionListener(this);
         tvQuery.setOnClickListener(new View.OnClickListener() {
@@ -129,11 +133,23 @@ public class MainActivity extends AppCompatActivity
         prepareLocking();
     }
 
+    private void setupActionBar() {
+        ActionBar bar = getSupportActionBar();
+        if (bar == null) return;
+
+        bar.setCustomView(R.layout.logo);
+        bar.setDisplayShowCustomEnabled(true);
+
+        View customView = bar.getCustomView();
+        TextView title = customView.findViewById(R.id.title);
+        title.setText(bar.getTitle());
+    }
+
     // ask for password then init screen
     private void prepareLocking() {
         dataStore = new DataStore(this, Model.PASSWORD);
         String password = dataStore.getString(Model.PASSWORD_KEY, null);
-        if (password == null) showPasswordDialog();
+        if (TextUtils.isEmpty(password)) showPasswordDialog();
         else initLocking();
     }
 
@@ -151,13 +167,16 @@ public class MainActivity extends AppCompatActivity
                 if (dialog != null) {
                     EditText text = dialog.findViewById(R.id.password);
                     String password = text.getText().toString().trim();
+
                     dialog.dismiss();
                     dialog = null;
 
-                    //save the password into preferences
-                    if (dataStore != null)
-                        dataStore.putString(Model.PASSWORD_KEY, password);
-                    initLocking();
+                    if (TextUtils.isEmpty(password)) showPasswordDialog();
+                    else {//save the password into preferences
+                        if (dataStore != null)
+                            dataStore.putString(Model.PASSWORD_KEY, password);
+                        initLocking();
+                    }
                 }
             }
         });
@@ -171,7 +190,7 @@ public class MainActivity extends AppCompatActivity
     private void initLocking() {
         // detect if logged in
         String refresh_token = dataStore.getString(Model.REFRESH_TOKEN, null);
-        if (refresh_token == null) finish_locking();//no refresh token - lock the screen
+        if (TextUtils.isEmpty(refresh_token)) finish_locking();//no refresh token - lock the screen
         else { //have refresh token
             long expires_at = dataStore.getLong(Model.EXPIRES_AT, 0);
             if (expires_at > 0) {
@@ -290,6 +309,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        if (dialog != null) {
+            dialog.dismiss();//prevent leak
+            dialog = null;
+        }
         outState.putString(Model.STATE_KEY, state);
         saveData(outState);
     }
@@ -308,7 +331,6 @@ public class MainActivity extends AppCompatActivity
 
     // finish locking the app
     private void finish_locking() {
-
         // disable interface
         enableSearch(false);
 
@@ -347,6 +369,7 @@ public class MainActivity extends AppCompatActivity
 
         //return from logout
         if (requestCode == Request.LOGOUT.ordinal()) {
+
             if (resultCode == RESULT_OK) {
                 finish_locking();//logout successful
                 return;
@@ -431,13 +454,14 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onLoadFinished(@NonNull Loader<Loaders.TokensResult> loader, Loaders.TokensResult data) {
+            Loaders.destroyLoader(MainActivity.this, loader.getId());
+
             if (data == null) {
                 finish_locking();
                 return;
             }
 
             if (data.error != null) {
-
                 Toast.makeText(MainActivity.this, String.format("Error during authentication:\n%s\n%s", data.error.error, data.error.error_description), Toast.LENGTH_LONG).show();
                 finish_locking();
                 return;
@@ -474,6 +498,8 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onLoadFinished(@NonNull Loader<Loaders.TokenResult> loader, Loaders.TokenResult data) {
+            Loaders.destroyLoader(MainActivity.this, loader.getId());
+
             if (data == null) {
                 finish_locking();
                 return;
@@ -488,7 +514,6 @@ public class MainActivity extends AppCompatActivity
                 finish_locking();
                 return;
             }
-
             //store the token &  unlock the app
             dataStore.putString(Model.ACCESS_TOKEN, data.token.access_token);
             dataStore.putLong(Model.EXPIRES_AT, data.token.expires_at);
@@ -502,6 +527,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     //todo all callbacks authentication error should display error in addition to error_description
+    //todo check all image display code for null images
 
     // callbacks for receiving search results
     private class SearchCallbacks implements LoaderManager.LoaderCallbacks<Loaders.SearchResult> {
@@ -526,6 +552,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onLoadFinished(@NonNull Loader<Loaders.SearchResult> loader, Loaders.SearchResult data) {
             progress.setVisibility(View.GONE);
+
             if (data == null) return; //no search results
             if (data.error != null) {
                 Toast.makeText(MainActivity.this, String.format("Search error:\n%s", data.error.message), Toast.LENGTH_LONG).show();

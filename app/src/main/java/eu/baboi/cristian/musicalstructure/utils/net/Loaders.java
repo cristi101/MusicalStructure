@@ -7,6 +7,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -68,6 +69,17 @@ public class Loaders {
         else manager.restartLoader(which, args, callbacks);
     }
 
+    public static <T> void initLoader(AppCompatActivity activity, int id, Bundle args, LoaderManager.LoaderCallbacks<T> callbacks) {
+        LoaderManager manager = activity.getSupportLoaderManager();
+        manager.initLoader(id, args, callbacks);
+    }
+
+    //destroy given loader
+    public static void destroyLoader(AppCompatActivity activity, int id) {
+        LoaderManager manager = activity.getSupportLoaderManager();
+        manager.destroyLoader(id);
+    }
+
 
     // download the pictures
     private static <T, P extends Model.Paging<T>> void getPictures(File cacheDir, P paging) {
@@ -94,7 +106,7 @@ public class Loaders {
         Model.Token token;
 
         String refresh_token = dataStore.getString(Model.REFRESH_TOKEN, null);
-        if (refresh_token == null) return null; //no refresh token
+        if (TextUtils.isEmpty(refresh_token)) return null; //no refresh token
 
         token = Model.refreshToken(refresh_token, dataStore);
         if (token == null) return null;
@@ -102,6 +114,7 @@ public class Loaders {
         //save the new access token
         dataStore.putString(Model.ACCESS_TOKEN, token.access_token);
         dataStore.putLong(Model.EXPIRES_AT, token.expires_at);
+
         return token.access_token;
     }
 
@@ -111,7 +124,7 @@ public class Loaders {
         Model.Token token = null;  // new access token
 
         String refresh_token = dataStore.getString(Model.REFRESH_TOKEN, null);
-        if (refresh_token == null) return null;//no refresh token
+        if (TextUtils.isEmpty(refresh_token)) return null;//no refresh token
 
         long expires_at = dataStore.getLong(Model.EXPIRES_AT, 0);
         if (expires_at > 0) {//found token
@@ -270,7 +283,8 @@ public class Loaders {
             }
 
             for (int count = 2; count > 0; count--) {// try 2 times
-                if (access_token == null) return null; //no token found - no search result
+                if (TextUtils.isEmpty(access_token))
+                    return null; //no token found - no search result
                 Model.setToken(access_token);
 
                 Model.Ref<Model.TrackSearch> tracks = null;
@@ -392,7 +406,8 @@ public class Loaders {
             }
 
             for (int count = 2; count > 0; count--) {// try 2 times
-                if (access_token == null) return null; //no token found - no search result
+                if (TextUtils.isEmpty(access_token))
+                    return null; //no token found - no search result
                 Model.setToken(access_token);
                 try {
                     P result = null;
@@ -493,7 +508,7 @@ public class Loaders {
             }
 
             for (int count = 2; count > 0; count--) {// try 2 times
-                if (access_token == null) return null; //no token found - no result
+                if (TextUtils.isEmpty(access_token)) return null; //no token found - no result
                 Model.setToken(access_token);
 
                 try {
@@ -593,7 +608,7 @@ public class Loaders {
             }
 
             for (int count = 2; count > 0; count--) {// try 2 times
-                if (access_token == null) return null; //no token found - no result
+                if (TextUtils.isEmpty(access_token)) return null; //no token found - no result
                 Model.setToken(access_token);
 
                 try {
@@ -684,7 +699,7 @@ public class Loaders {
             }
 
             for (int count = 2; count > 0; count--) {// try 2 times
-                if (access_token == null) return null; //no token found - no result
+                if (TextUtils.isEmpty(access_token)) return null; //no token found - no result
                 Model.setToken(access_token);
 
                 try {
@@ -784,7 +799,7 @@ public class Loaders {
             }
 
             for (int count = 2; count > 0; count--) {// try 2 times
-                if (access_token == null) return null; //no token found - no result
+                if (TextUtils.isEmpty(access_token)) return null; //no token found - no result
                 Model.setToken(access_token);
 
                 try {
@@ -876,7 +891,7 @@ public class Loaders {
             }
 
             for (int count = 2; count > 0; count--) {// try 2 times
-                if (access_token == null) return null; //no token found - no result
+                if (TextUtils.isEmpty(access_token)) return null; //no token found - no result
                 Model.setToken(access_token);
 
                 try {

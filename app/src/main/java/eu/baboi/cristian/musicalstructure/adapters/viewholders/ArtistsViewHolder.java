@@ -3,6 +3,7 @@ package eu.baboi.cristian.musicalstructure.adapters.viewholders;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -61,7 +62,7 @@ public class ArtistsViewHolder extends ViewHolder<Model.Artist> implements View.
     }
 
     public void onClick(View v) {
-        if (idArtist == null) return;
+        if (TextUtils.isEmpty(idArtist)) return;
         Intent intent = new Intent(mContext, Artist.class);
         intent.putExtra(Model.ID_KEY, idArtist);
         mContext.startActivity(intent);

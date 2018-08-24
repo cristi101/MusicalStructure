@@ -26,7 +26,7 @@
 
     <string name="artist_title">Artist</string>
     <string name="album_title">Album</string>
-    <string name="track_title">Track</string>
+    <string name="track_title">Song</string>
 
     <string name="locked_title">Login</string>
     <string name="unlocked_title">Logout</string>

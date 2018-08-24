@@ -54,7 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
             //newValue cannot be null
             String stringValue = newValue.toString().trim();
             if (preference == password) {
-                return true;
+                return !stringValue.isEmpty();
             }
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in

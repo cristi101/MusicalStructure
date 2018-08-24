@@ -8,6 +8,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -65,7 +66,7 @@ public class Artist extends AppCompatActivity implements PagingCallbacks.Progres
         if (intent == null) return;
 
         idArtist = intent.getStringExtra(Model.ID_KEY);
-        if (idArtist == null) return;
+        if (TextUtils.isEmpty(idArtist)) return;
 
         LoaderManager manager = getSupportLoaderManager();
         manager.initLoader(Loaders.Id.ARTIST.ordinal(), null, new ArtistCallbacks());

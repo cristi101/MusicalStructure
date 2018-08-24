@@ -15,7 +15,6 @@ public class SoundPlayer implements AudioManager.OnAudioFocusChangeListener, Med
         Uri uri = Uri.parse(url);
         audioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
 
-        //todo play from url
         //todo check for nulls
         mediaPlayer = MediaPlayer.create(activity, uri);
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
