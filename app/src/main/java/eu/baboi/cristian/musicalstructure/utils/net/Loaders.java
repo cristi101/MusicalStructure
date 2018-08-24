@@ -44,6 +44,7 @@ public class Loaders {
     }
 
     private Loaders() {
+        throw new AssertionError();
     }
 
     //check if network available
@@ -69,9 +70,11 @@ public class Loaders {
         else manager.restartLoader(which, args, callbacks);
     }
 
-    public static <T> void initLoader(AppCompatActivity activity, int id, Bundle args, LoaderManager.LoaderCallbacks<T> callbacks) {
+    public static <T> void initLoader(AppCompatActivity activity, Id id, Bundle args, LoaderManager.LoaderCallbacks<T> callbacks) {
+        if (noNetwork(activity)) return;
+
         LoaderManager manager = activity.getSupportLoaderManager();
-        manager.initLoader(id, args, callbacks);
+        manager.initLoader(id.ordinal(), args, callbacks);
     }
 
     //destroy given loader
@@ -855,7 +858,6 @@ public class Loaders {
         }
     }
 
-    //todo aici =============================================================
     // fetch given track data
     public static class Track extends AsyncTaskLoader<TrackResult> {
         final private File cacheDir; // the folder to load pictures

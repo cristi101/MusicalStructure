@@ -19,14 +19,14 @@
                 android:id="@+id/picture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:layout_margin="@dimen/gap"
                 android:layout_gravity="center"
+                android:layout_margin="@dimen/gap"
+                android:layout_weight="0"
                 android:adjustViewBounds="true"
                 android:background="@color/frame"
+                android:contentDescription="@string/artist_picture_desc"
                 android:padding="@dimen/gap"
                 android:scaleType="centerCrop"
-                android:contentDescription="@string/artist_picture_desc"
                 android:src="@drawable/spotify_logo_green" />
 
             <TextView
@@ -34,8 +34,8 @@
                 style="@style/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
                 android:layout_gravity="center"
+                android:layout_weight="0"
                 android:gravity="center" />
         </LinearLayout>
     </ScrollView>

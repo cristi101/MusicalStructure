@@ -19,14 +19,14 @@
                 android:id="@+id/picture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:layout_margin="@dimen/gap"
                 android:layout_gravity="center"
+                android:layout_margin="@dimen/gap"
+                android:layout_weight="0"
                 android:adjustViewBounds="true"
                 android:background="@color/frame"
+                android:contentDescription="@string/artist_picture_desc"
                 android:padding="@dimen/gap"
                 android:scaleType="centerCrop"
-                android:contentDescription="@string/artist_picture_desc"
                 android:src="@drawable/spotify_logo_green" />
 
             <TextView
@@ -34,8 +34,10 @@
                 style="@style/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
                 android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/gap"
+                android:layout_marginRight="@dimen/gap"
+                android:layout_weight="0"
                 android:gravity="center" />
 
             <TextView
@@ -43,17 +45,20 @@
                 style="@style/info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
                 android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/gap"
+                android:layout_marginRight="@dimen/gap"
+                android:layout_weight="0"
                 android:gravity="center" />
 
             <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/gap"
+                android:layout_marginTop="@dimen/gap"
                 android:layout_weight="1"
                 android:scrollbars="vertical" />
-
         </LinearLayout>
     </ScrollView>
 

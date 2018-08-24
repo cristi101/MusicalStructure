@@ -16,6 +16,9 @@ import java.io.InputStream;
 public class Picture {
     private static final String LOG = Picture.class.getName();
 
+    private Picture() {
+        throw new AssertionError();
+    }
 
     public static void setImageUri(ImageView v, Uri uri, int reqWidth, int reqHeight) {
         if (v == null) return;

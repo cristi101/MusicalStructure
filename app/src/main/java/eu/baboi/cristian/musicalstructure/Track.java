@@ -58,8 +58,7 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
         idTrack = intent.getStringExtra(Model.ID_KEY);
         if (TextUtils.isEmpty(idTrack)) return;
 
-        LoaderManager manager = getSupportLoaderManager();
-        manager.initLoader(Loaders.Id.TRACK.ordinal(), null, new TrackCallbacks());
+        Loaders.initLoader(this, Loaders.Id.TRACK, null, new TrackCallbacks());
     }
 
     @Override
@@ -77,7 +76,6 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
 
     @Override
     public void onClick(View v) {
-        //todo investigate crash for very new good music
         if (TextUtils.isEmpty(previewUrl)) return;
         releaseMediaPlayer();
         soundPlayer = new SoundPlayer(this, previewUrl);

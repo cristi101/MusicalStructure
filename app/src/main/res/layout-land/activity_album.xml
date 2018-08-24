@@ -19,6 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
+                android:layout_margin="@dimen/gap"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -26,7 +27,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/gap"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:background="@color/frame"
@@ -39,6 +39,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
+                    android:layout_marginLeft="@dimen/gap"
                     android:orientation="vertical"
                     android:layout_gravity="center"
                     android:gravity="center">
@@ -68,6 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:layout_marginBottom="@dimen/gap"
                 android:scrollbars="vertical" />
 
         </LinearLayout>

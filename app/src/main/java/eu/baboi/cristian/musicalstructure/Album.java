@@ -58,9 +58,9 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new TracksAdapter(null, this);
         recyclerView.setAdapter(adapter);
-        //todo check all 4 variants
+
         recyclerView.setNestedScrollingEnabled(true);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
 
         Intent intent = getIntent();
         if (intent == null) return;
@@ -68,9 +68,7 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
         idAlbum = intent.getStringExtra(Model.ID_KEY);
         if (TextUtils.isEmpty(idAlbum)) return;
 
-        LoaderManager manager = getSupportLoaderManager();
-        manager.initLoader(Loaders.Id.ALBUM.ordinal(), null, new AlbumCallbacks());
-        //manager.initLoader(Loaders.Id.ALBUM_TRACKS.ordinal(), null, new TracksCallbacks(10, 0));
+        Loaders.initLoader(this, Loaders.Id.ALBUM, null, new AlbumCallbacks());
     }
 
 
@@ -89,7 +87,6 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
             out.putInt(TRACKS_LIMIT_KEY, data.limit);
             out.putInt(TRACKS_OFFSET_KEY, data.offset);
         }
-
     }
 
     @Override

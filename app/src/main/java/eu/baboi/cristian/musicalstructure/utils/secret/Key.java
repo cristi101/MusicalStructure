@@ -4,6 +4,10 @@ import android.text.TextUtils;
 
 public class Key {
 
+    private Key() {
+        throw new AssertionError();
+    }
+
     // return the password concatenated to itself to the length of key
     private static String getPassword(String password, String key) {
         if (TextUtils.isEmpty(password)) return key;

@@ -87,6 +87,7 @@ public class Model {
 
     //no constructor
     private Model() {
+        throw new AssertionError();
     }
 
     // data    model classes

@@ -527,7 +527,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     //todo all callbacks authentication error should display error in addition to error_description
-    //todo check all image display code for null images
 
     // callbacks for receiving search results
     private class SearchCallbacks implements LoaderManager.LoaderCallbacks<Loaders.SearchResult> {

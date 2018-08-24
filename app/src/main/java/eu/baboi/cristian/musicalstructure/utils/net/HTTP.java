@@ -20,6 +20,7 @@ public final class HTTP {
     private static final String LOG = HTTP.class.getName();
 
     private HTTP() {
+        throw new AssertionError();
     }
 
     // make a GET request to Spotify web api
