@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import eu.baboi.cristian.musicalstructure.R;
 import eu.baboi.cristian.musicalstructure.utils.activities.LoginCallback;
 import eu.baboi.cristian.musicalstructure.utils.secret.DataStore;
 import eu.baboi.cristian.musicalstructure.utils.secret.Key;
@@ -1096,6 +1100,18 @@ public class Model {
         if (json == null) return null;
         if (json.isNull(key)) return null;
         return json.optString(key, null);
+    }
+
+    public static void setupActionBar(AppCompatActivity activity, String info) {
+        ActionBar bar = activity.getSupportActionBar();
+        if (bar == null) return;
+
+        bar.setCustomView(R.layout.logo);
+        bar.setDisplayShowCustomEnabled(true);
+
+        View customView = bar.getCustomView();
+        TextView title = customView.findViewById(R.id.title);
+        title.setText(String.format("%s %s", bar.getTitle(), info));
     }
 
 }

@@ -46,6 +46,8 @@ public class Artist extends AppCompatActivity implements PagingCallbacks.Progres
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
 
+        Model.setupActionBar(this, "- powered by");
+
         progress = findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
 

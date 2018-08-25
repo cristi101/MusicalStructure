@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setupActionBar();
+        Model.setupActionBar(this, "&");
 
         tvQuery = findViewById(R.id.query);
         tvQuery.setOnEditorActionListener(this);
@@ -131,18 +130,6 @@ public class MainActivity extends AppCompatActivity
         viewPager.setOffscreenPageLimit(2);
 
         prepareLocking();
-    }
-
-    private void setupActionBar() {
-        ActionBar bar = getSupportActionBar();
-        if (bar == null) return;
-
-        bar.setCustomView(R.layout.logo);
-        bar.setDisplayShowCustomEnabled(true);
-
-        View customView = bar.getCustomView();
-        TextView title = customView.findViewById(R.id.title);
-        title.setText(String.format("%s &", bar.getTitle()));
     }
 
     // ask for password then init screen

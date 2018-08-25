@@ -46,6 +46,8 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
 
+        Model.setupActionBar(this, "- powered by");
+
         progress = findViewById(R.id.progress);
         progress.setVisibility(View.GONE);
 
