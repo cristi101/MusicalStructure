@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/spotify_logo_description"
-        android:src="@drawable/spotify_logo_green" />
+        android:src="@drawable/spotify_logo_white" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,15 +33,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="@dimen/button_margin"
+        android:background="@drawable/button"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:padding="@dimen/button_padding"
         android:text="@string/return_to_app"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:textColor="@color/tabSelectedTextColor" />
 
     <Button
         android:id="@+id/try_again"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="@dimen/button_margin"
+        android:background="@drawable/button"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:padding="@dimen/button_padding"
         android:text="@string/try_again"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:textColor="@color/tabSelectedTextColor" />
 
 </LinearLayout>

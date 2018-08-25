@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity
 
         View customView = bar.getCustomView();
         TextView title = customView.findViewById(R.id.title);
-        title.setText(bar.getTitle());
+        title.setText(String.format("%s &", bar.getTitle()));
     }
 
     // ask for password then init screen
@@ -288,9 +288,9 @@ public class MainActivity extends AppCompatActivity
 
     //save the data
     private void saveData(Bundle out) {
-        Model.ArtistSearch artists = artistsAdapter.data();
-        Model.AlbumSearch albums = albumsAdapter.data();
-        Model.TrackSearch tracks = tracksAdapter.data();
+        Model.ArtistSearch artists = artistsAdapter == null ? null : artistsAdapter.data();
+        Model.AlbumSearch albums = albumsAdapter == null ? null : albumsAdapter.data();
+        Model.TrackSearch tracks = tracksAdapter == null ? null : tracksAdapter.data();
         if (artists != null) {
             out.putInt(ARTISTS_LIMIT_KEY, artists.limit);
             out.putInt(ARTISTS_OFFSET_KEY, artists.offset);

@@ -1,6 +1,7 @@
 package eu.baboi.cristian.musicalstructure.utils.activities;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Browser;
@@ -28,6 +29,8 @@ public class LoginCallback extends AppCompatActivity {
         return_to_app.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //needed to restore full sensor orientation change for the main activity
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
                 finish();
             }
         });
@@ -56,6 +59,8 @@ public class LoginCallback extends AppCompatActivity {
 
     // pass the result back to caller activity
     private void actionView(Intent intent) {
+        //needed to restore full sensor orientation change for the main activity
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -131,6 +136,13 @@ public class LoginCallback extends AppCompatActivity {
         builder.appendQueryParameter(Model.REDIRECT, Model.REDIRECT_URI);
         builder.appendQueryParameter(Model.STATE, state);
         return builder.build();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //needed to restore full sensor orientation change for the main activity
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+        super.onBackPressed();
     }
 
 }

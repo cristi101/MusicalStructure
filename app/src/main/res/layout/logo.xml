@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -9,20 +10,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginRight="@dimen/gap"
-        android:layout_weight="0"
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@color/text"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="Musical Structure" />
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
+        android:layout_gravity="left"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
+        android:padding="@dimen/button_padding"
+        android:scaleType="centerInside"
         android:src="@drawable/spotify_logo_white" />
 
 </LinearLayout>
