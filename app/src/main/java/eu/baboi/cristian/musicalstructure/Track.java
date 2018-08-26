@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import eu.baboi.cristian.musicalstructure.utils.PagingCallbacks;
 import eu.baboi.cristian.musicalstructure.utils.Picture;
@@ -19,9 +21,8 @@ import eu.baboi.cristian.musicalstructure.utils.SoundPlayer;
 import eu.baboi.cristian.musicalstructure.utils.net.Loaders;
 import eu.baboi.cristian.musicalstructure.utils.net.Model;
 
-public class Track extends AppCompatActivity implements PagingCallbacks.Progress, View.OnClickListener {
+public class Track extends AppCompatActivity implements PagingCallbacks.Progress {
     private static String LOG = Artist.class.getName();
-
 
     private String idTrack = null;
 
@@ -34,6 +35,8 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
 
     private ImageView picture;
     private TextView name;
+    private ToggleButton play, pause, stop;
+    private LinearLayout player;
 
     private String previewUrl;
     private SoundPlayer soundPlayer;
@@ -51,8 +54,14 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
         picture = findViewById(R.id.picture);
         name = findViewById(R.id.name);
 
+        player = findViewById(R.id.player);
+        player.setVisibility(View.GONE);
+
+        play = findViewById(R.id.play);
+        pause = findViewById(R.id.pause);
+        stop = findViewById(R.id.stop);
+
         previewUrl = null;
-        picture.setOnClickListener(this);
 
         Intent intent = getIntent();
         if (intent == null) return;
@@ -63,8 +72,9 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
         Loaders.initLoader(this, Loaders.Id.TRACK, null, new TrackCallbacks());
     }
 
+
     @Override
-    public void onStop() {
+    protected void onStop() {
         super.onStop();
         releaseMediaPlayer();
     }
@@ -74,13 +84,6 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
             soundPlayer.releaseMediaPlayer();
             soundPlayer = null;
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (TextUtils.isEmpty(previewUrl)) return;
-        releaseMediaPlayer();
-        soundPlayer = new SoundPlayer(this, previewUrl);
     }
 
     private class TrackCallbacks implements LoaderManager.LoaderCallbacks<Loaders.TrackResult> {
@@ -120,6 +123,11 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
 
             name.setText(track.name);
             previewUrl = track.preview_url;
+
+            if (!TextUtils.isEmpty(previewUrl)) {
+                soundPlayer = new SoundPlayer(Track.this, previewUrl, play, pause, stop);
+                player.setVisibility(View.VISIBLE);
+            } else player.setVisibility(View.GONE);
         }
 
         @Override
@@ -127,6 +135,5 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
 
         }
     }
-
 }
 

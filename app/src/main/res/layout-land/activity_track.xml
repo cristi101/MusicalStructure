@@ -47,6 +47,30 @@
                     android:gravity="center"
                     tools:text="name" />
 
+                <LinearLayout
+                    android:id="@+id/player"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <ToggleButton
+                        android:id="@+id/play"
+                        style="@style/toggle"
+                        android:button="@drawable/play" />
+
+                    <ToggleButton
+                        android:id="@+id/stop"
+                        style="@style/toggle"
+                        android:button="@drawable/stop" />
+
+                    <ToggleButton
+                        android:id="@+id/pause"
+                        style="@style/toggle"
+                        android:button="@drawable/pause" />
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

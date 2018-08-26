@@ -40,26 +40,29 @@
                 tools:text="Te las cu inima" />
 
             <LinearLayout
+                android:id="@+id/player"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/play" />
+                <ToggleButton
+                    android:id="@+id/play"
+                    style="@style/toggle"
+                    android:button="@drawable/play" />
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/pause" />
+                <ToggleButton
+                    android:id="@+id/stop"
+                    style="@style/toggle"
+                    android:button="@drawable/stop" />
 
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/stop" />
-
+                <ToggleButton
+                    android:id="@+id/pause"
+                    style="@style/toggle"
+                    android:button="@drawable/pause" />
             </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>
