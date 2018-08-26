@@ -38,11 +38,11 @@ public class Model {
 
     public static final String REDIRECT_URI = "eu.baboi.cristian.musicalstructure://callback";
     public static final String AUTHORIZE_URL = "https://accounts.spotify.com/authorize";
-    public static final String TOKEN_URL = "https://accounts.spotify.com/api/token";
+    private static final String TOKEN_URL = "https://accounts.spotify.com/api/token";
     public static final String LOGOUT_URL = "https://accounts.spotify.com/en/logout";
 
     public static final String CLIENT = "05865a6984e2407f980620ee17a2368e";
-    public static final String SECRET = "{zQ%NE0EC'{$)zyORTzH5Fw,L+)Gz $T";
+    private static final String SECRET = "{zQ%NE0EC'{$)zyORTzH5Fw,L+)Gz $T";
     public static final String PASSWORD = "once upon a time";
     public static final String PASSWORD_KEY = "password";
 
@@ -54,9 +54,10 @@ public class Model {
     private static final String SCOPE = "scope";
     public static final String CODE = "code";
     public static final String ERROR = "error";
-    public static final String GRANT_TYPE = "grant_type";
-    public static final String CODE_GRANT = "authorization_code";
-    public static final String REFRESH_GRANT = "refresh_token";
+
+    private static final String GRANT_TYPE = "grant_type";
+    private static final String CODE_GRANT = "authorization_code";
+    private static final String REFRESH_GRANT = "refresh_token";
 
     public static final String ACCESS_TOKEN = "access_token";
     public static final String REFRESH_TOKEN = "refresh_token";
@@ -68,26 +69,26 @@ public class Model {
     public static final int LOGIN = 1;
     public static final int LOGOUT = 2;
 
-    public static String TOKEN = "123";
+    private static String TOKEN = "123";
 
-    public static final String BASE_URL = "https://api.spotify.com/v1";
+    private static final String BASE_URL = "https://api.spotify.com/v1";
 
-    public static final String ARTISTS = "artists";
-    public static final String ALBUMS = "albums";
-    public static final String TRACKS = "tracks";
+    private static final String ARTISTS = "artists";
+    private static final String ALBUMS = "albums";
+    private static final String TRACKS = "tracks";
 
     // data urls
-    public static final String ARTISTS_URL = BASE_URL + "/" + ARTISTS;
-    public static final String ALBUMS_URL = BASE_URL + "/" + ALBUMS;
-    public static final String TRACKS_URL = BASE_URL + "/" + TRACKS;
-    public static final String SEARCH_URL = BASE_URL + "/search";
+    private static final String ARTISTS_URL = BASE_URL + "/" + ARTISTS;
+    private static final String ALBUMS_URL = BASE_URL + "/" + ALBUMS;
+    private static final String TRACKS_URL = BASE_URL + "/" + TRACKS;
+    private static final String SEARCH_URL = BASE_URL + "/search";
 
     // url query parameters
-    public static final String IDS = "ids";
-    public static final String QUERY = "q";
-    public static final String TYPE = "type";
-    public static final String LIMIT = "limit";
-    public static final String OFFSET = "offset";
+    private static final String IDS = "ids";
+    private static final String QUERY = "q";
+    private static final String TYPE = "type";
+    private static final String LIMIT = "limit";
+    private static final String OFFSET = "offset";
 
     //no constructor
     private Model() {

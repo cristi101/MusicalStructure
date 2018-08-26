@@ -14,7 +14,7 @@ import eu.baboi.cristian.musicalstructure.utils.net.Loaders;
 import eu.baboi.cristian.musicalstructure.utils.net.Model;
 
 public class PagingCallbacks<T, P extends Model.Paging<T>, VH extends ViewHolder<T>, A extends ListAdapter<T, P, VH, A>> implements LoaderManager.LoaderCallbacks<Loaders.PagingResult<T, P>> {
-
+    private static final String LOG = PagingCallbacks.class.getName();
     public interface Progress {
         ProgressBar getProgressBar();
     }
@@ -43,6 +43,7 @@ public class PagingCallbacks<T, P extends Model.Paging<T>, VH extends ViewHolder
     @Override
     public void onLoadFinished(Loader<Loaders.PagingResult<T, P>> loader, Loaders.PagingResult<T, P> data) {
         if (progress != null) progress.setVisibility(View.GONE);
+
         if (data == null) return;
         if (data.error != null) {
             Toast.makeText(activity, String.format("Search error:\n%s", data.error.message), Toast.LENGTH_LONG).show();

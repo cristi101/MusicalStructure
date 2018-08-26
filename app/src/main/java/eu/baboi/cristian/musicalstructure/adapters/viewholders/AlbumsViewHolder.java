@@ -38,32 +38,29 @@ public class AlbumsViewHolder extends ViewHolder<Model.SimplifiedAlbum> implemen
     public void bind(Model.SimplifiedAlbum album) {
         idAlbum = album.id;
 
-        if (album.imageUri != null) {
-            picture.setVisibility(View.VISIBLE);
-
-            picture.post(new Runnable() {
-                @Override
-                public void run() {
-                    int width = picture.getMeasuredWidth();
-                    Picture.setImageUri(picture, album.imageUri, width, width);
-                }
-            });
-
-        } else picture.setVisibility(View.GONE);
+        picture.post(new Runnable() {
+            @Override
+            public void run() {
+                int width = picture.getMeasuredWidth();
+                Picture.setImageUri(picture, album.imageUri, width, width);
+            }
+        });
 
         name.setText(album.name);
 
+        StringBuilder builder = new StringBuilder();
+        builder.append(album.album_type);
+        builder.append(" * ");
+        builder.append(album.release_date);
+
         if (album.artists != null) {
-            StringBuilder builder = new StringBuilder();
-            builder.append(album.album_type);
-            builder.append(" * ");
-            builder.append(album.release_date);
             for (Model.SimplifiedArtist artist : album.artists) {
                 builder.append(" * ");
                 builder.append(artist.name);
             }
-            artists.setText(builder.toString());
         }
+
+        artists.setText(builder.toString());
     }
 
     public void onClick(View v) {

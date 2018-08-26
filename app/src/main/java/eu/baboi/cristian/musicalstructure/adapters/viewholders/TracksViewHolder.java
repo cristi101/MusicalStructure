@@ -43,18 +43,21 @@ public class TracksViewHolder extends ViewHolder<Model.Track> implements View.On
         trackNo.setText(String.valueOf(track.track_number));
         name.setText(track.name);
         duration.setText(milisToString(track.duration_ms));
+
         Model.SimplifiedAlbum album = track.album;
         tvAlbum.setText(String.format("%s * %s * %s", album.name, album.album_type, album.release_date));
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("Disc ");
+        builder.append(track.disc_number);
+
         if (track.artists != null) {
-            StringBuilder builder = new StringBuilder();
-            builder.append("disc ");
-            builder.append(track.disc_number);
             for (Model.SimplifiedArtist artist : track.artists) {
                 builder.append(" * ");
                 builder.append(artist.name);
             }
-            artists.setText(builder.toString());
         }
+        artists.setText(builder.toString());
     }
 
     public void onClick(View v) {

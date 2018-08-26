@@ -38,27 +38,24 @@ public class ArtistsViewHolder extends ViewHolder<Model.Artist> implements View.
     public void bind(Model.Artist artist) {
         idArtist = artist.id;
 
-        if (artist.imageUri != null) {
-            picture.setVisibility(View.VISIBLE);
-            picture.post(new Runnable() {
-                @Override
-                public void run() {
-                    int width = picture.getMeasuredWidth();
-                    Picture.setImageUri(picture, artist.imageUri, width, width);
-                }
-            });
-        } else picture.setVisibility(View.GONE);
+        picture.post(new Runnable() {
+            @Override
+            public void run() {
+                int width = picture.getMeasuredWidth();
+                Picture.setImageUri(picture, artist.imageUri, width, width);
+            }
+        });
 
         name.setText(artist.name);
 
+        StringBuilder builder = new StringBuilder();
         if (artist.genres != null) {
-            StringBuilder builder = new StringBuilder();
             for (String genre : artist.genres) {
                 builder.append(" * ");
                 builder.append(genre);
             }
-            genres.setText(builder.toString());
         }
+        genres.setText(builder.toString());
     }
 
     public void onClick(View v) {

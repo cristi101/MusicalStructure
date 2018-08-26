@@ -139,15 +139,17 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
             });
 
             name.setText(album.name);
+            //todo lipsesc type/date/label/copyrights
 
+            StringBuilder builder = new StringBuilder();
             if (album.genres != null) {
-                StringBuilder builder = new StringBuilder();
                 for (String genre : album.genres) {
                     builder.append(" * ");
                     builder.append(genre);
                 }
-                genres.setText(builder.toString());
             }
+            genres.setText(builder.toString());
+
             adapter.update(album.tracks);
         }
 

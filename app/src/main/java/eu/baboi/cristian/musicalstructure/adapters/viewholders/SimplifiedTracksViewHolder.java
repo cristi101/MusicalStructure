@@ -41,16 +41,19 @@ public class SimplifiedTracksViewHolder extends ViewHolder<Model.SimplifiedTrack
         trackNo.setText(String.valueOf(track.track_number));
         name.setText(track.name);
         duration.setText(milisToString(track.duration_ms));
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("Disc ");
+        builder.append(track.disc_number);
+
         if (track.artists != null) {
-            StringBuilder builder = new StringBuilder();
-            builder.append("disc ");
-            builder.append(track.disc_number);
             for (Model.SimplifiedArtist artist : track.artists) {
                 builder.append(" * ");
                 builder.append(artist.name);
             }
-            artists.setText(builder.toString());
         }
+
+        artists.setText(builder.toString());
     }
 
     public void onClick(View v) {
