@@ -23,9 +23,13 @@
         </activity>
 
         <activity
-            android:name=".Artist"
+            android:name=".ArtistActivity"
             android:label="@string/artist_title"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="fullSensor"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="eu.baboi.cristian.musicalstructure.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -33,9 +37,13 @@
         </activity>
 
         <activity
-            android:name=".Album"
+            android:name=".AlbumActivity"
             android:label="@string/album_title"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="fullSensor"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="eu.baboi.cristian.musicalstructure.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -43,9 +51,14 @@
         </activity>
 
         <activity
-            android:name=".Track"
+            android:name=".TrackActivity"
             android:label="@string/track_title"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="fullSensor"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="eu.baboi.cristian.musicalstructure.MainActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

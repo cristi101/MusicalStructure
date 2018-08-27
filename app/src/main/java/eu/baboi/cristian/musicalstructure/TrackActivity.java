@@ -21,8 +21,8 @@ import eu.baboi.cristian.musicalstructure.utils.SoundPlayer;
 import eu.baboi.cristian.musicalstructure.utils.net.Loaders;
 import eu.baboi.cristian.musicalstructure.utils.net.Model;
 
-public class Track extends AppCompatActivity implements PagingCallbacks.Progress {
-    private static String LOG = Artist.class.getName();
+public class TrackActivity extends AppCompatActivity implements PagingCallbacks.Progress {
+    private static String LOG = ArtistActivity.class.getName();
 
     private String idTrack = null;
 
@@ -109,17 +109,17 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
             progress.setVisibility(View.GONE);
 
             if (data == null) {
-                Toast.makeText(Track.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(TrackActivity.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
                 return; //no results
             }
 
             if (data.error != null) {
-                Toast.makeText(Track.this, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
+                Toast.makeText(TrackActivity.this, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
                 return;
             }
 
             if (data.aerror != null) {
-                Toast.makeText(Track.this, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
+                Toast.makeText(TrackActivity.this, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -156,7 +156,7 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
             previewUrl = track.preview_url;
 
             if (!TextUtils.isEmpty(previewUrl)) {
-                soundPlayer = new SoundPlayer(Track.this, previewUrl, play, pause, stop);
+                soundPlayer = new SoundPlayer(TrackActivity.this, previewUrl, play, pause, stop);
                 player.setVisibility(View.VISIBLE);
             } else player.setVisibility(View.GONE);
         }

@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity
     private static final String LOG = MainActivity.class.getName();
 
     private static final String CODE_KEY = "code";
+    private static final String QUERY_KEY = "query";
 
     private static final String ARTISTS_LIMIT_KEY = "ARTISTS_LIMIT_KEY";
     private static final String ARTISTS_OFFSET_KEY = "ARTISTS_OFFSET_KEY";
@@ -347,6 +348,11 @@ public class MainActivity extends AppCompatActivity
         locked = false;
         invalidateOptionsMenu();//refresh the menu
         enableSearch(true);
+        String query = dataStore.getString(QUERY_KEY, null);
+        if (!TextUtils.isEmpty(query)) {
+            tvQuery.setText(query);
+            search();
+        }
     }
 
     // return from lock()/unlock() calls
@@ -403,19 +409,26 @@ public class MainActivity extends AppCompatActivity
         if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    private void search() {
+        SearchCallbacks callbacks = new SearchCallbacks(TRACKS + ALBUMS + ARTISTS, 10, 0);
+        Loaders.startLoader(this, Loaders.Id.SEARCH, null, callbacks);
+    }
+
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         hideKeyboard(v);
-        SearchCallbacks callbacks = new SearchCallbacks(TRACKS + ALBUMS + ARTISTS, 10, 0);
-        Loaders.startLoader(this, Loaders.Id.SEARCH, null, callbacks);
+        String query = tvQuery.getText().toString().trim();
+        dataStore.putString(QUERY_KEY, query);
+        search();
         return true;
     }
 
     @Override
     public void onClick(View v) {
         hideKeyboard(v);
-        SearchCallbacks callbacks = new SearchCallbacks(TRACKS + ALBUMS + ARTISTS, 10, 0);
-        Loaders.startLoader(this, Loaders.Id.SEARCH, null, callbacks);
+        String query = tvQuery.getText().toString().trim();
+        dataStore.putString(QUERY_KEY, query);
+        search();
     }
 
 

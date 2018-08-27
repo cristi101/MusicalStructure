@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import eu.baboi.cristian.musicalstructure.Album;
+import eu.baboi.cristian.musicalstructure.AlbumActivity;
 import eu.baboi.cristian.musicalstructure.R;
 import eu.baboi.cristian.musicalstructure.utils.Picture;
 import eu.baboi.cristian.musicalstructure.utils.net.Loaders;
@@ -67,7 +67,7 @@ public class AlbumsViewHolder extends ViewHolder<Model.SimplifiedAlbum> implemen
     public void onClick(View v) {
         if (TextUtils.isEmpty(idAlbum)) return;
         if (Loaders.noNetwork(mContext)) return;
-        Intent intent = new Intent(mContext, Album.class);
+        Intent intent = new Intent(mContext, AlbumActivity.class);
         intent.putExtra(Model.ID_KEY, idAlbum);
         mContext.startActivity(intent);
     }

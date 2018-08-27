@@ -15,19 +15,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import eu.baboi.cristian.musicalstructure.adapters.TracksAdapter;
+import eu.baboi.cristian.musicalstructure.adapters.AlbumsAdapter;
 import eu.baboi.cristian.musicalstructure.utils.PagingCallbacks;
 import eu.baboi.cristian.musicalstructure.utils.Picture;
 import eu.baboi.cristian.musicalstructure.utils.net.Loaders;
 import eu.baboi.cristian.musicalstructure.utils.net.Model;
 
-public class Album extends AppCompatActivity implements PagingCallbacks.Progress {
-    private static String LOG = Artist.class.getName();
+public class ArtistActivity extends AppCompatActivity implements PagingCallbacks.Progress {
+    private static String LOG = ArtistActivity.class.getName();
 
-    private static final String TRACKS_LIMIT_KEY = "TRACKS_LIMIT_KEY";
-    private static final String TRACKS_OFFSET_KEY = "TRACKS_OFFSET_KEY";
+    private static final String ALBUMS_LIMIT_KEY = "ALBUMS_LIMIT_KEY";
+    private static final String ALBUMS_OFFSET_KEY = "ALBUMS_OFFSET_KEY";
 
-    private String idAlbum = null;
+    private String idArtist = null;
 
     private ProgressBar progress;
 
@@ -39,13 +39,12 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
     private ImageView picture;
     private TextView name;
     private TextView genres;
-    private TextView info;
-    private TracksAdapter adapter;
+    private AlbumsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album);
+        setContentView(R.layout.activity_artist);
 
         Model.setupActionBar(this, "- powered by");
 
@@ -55,12 +54,11 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
         picture = findViewById(R.id.picture);
         name = findViewById(R.id.name);
         genres = findViewById(R.id.genres);
-        info = findViewById(R.id.info);
 
         RecyclerView recyclerView = findViewById(R.id.list);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TracksAdapter(null, this);
+        adapter = new AlbumsAdapter(null, this);
         recyclerView.setAdapter(adapter);
 
         recyclerView.setNestedScrollingEnabled(true);
@@ -69,27 +67,28 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
         Intent intent = getIntent();
         if (intent == null) return;
 
-        idAlbum = intent.getStringExtra(Model.ID_KEY);
-        if (TextUtils.isEmpty(idAlbum)) return;
+        idArtist = intent.getStringExtra(Model.ID_KEY);
+        if (TextUtils.isEmpty(idArtist)) return;
 
-        Loaders.initLoader(this, Loaders.Id.ALBUM, null, new AlbumCallbacks());
+        Loaders.initLoader(this, Loaders.Id.ARTIST, null, new ArtistCallbacks());
+        Loaders.initLoader(this, Loaders.Id.ARTIST_ALBUMS, null, new AlbumsCallbacks(10, 0));
     }
 
 
     private void restoreData(Bundle in) {
-        int data_limit = in.getInt(TRACKS_LIMIT_KEY, -1);
-        int data_offset = in.getInt(TRACKS_OFFSET_KEY, -1);
+        int data_limit = in.getInt(ALBUMS_LIMIT_KEY, -1);
+        int data_offset = in.getInt(ALBUMS_OFFSET_KEY, -1);
         if (data_limit > 0 && data_offset >= 0) {
-            TracksCallbacks callbacks = new TracksCallbacks(data_limit, data_offset);
-            Loaders.startLoader(this, Loaders.Id.ALBUM_TRACKS, null, callbacks);
+            AlbumsCallbacks callbacks = new AlbumsCallbacks(data_limit, data_offset);
+            Loaders.startLoader(this, Loaders.Id.ARTIST_ALBUMS, null, callbacks);
         }
     }
 
     private void saveData(Bundle out) {
-        Model.TrackPaging data = adapter.data();
+        Model.AlbumPaging data = adapter.data();
         if (data != null) {
-            out.putInt(TRACKS_LIMIT_KEY, data.limit);
-            out.putInt(TRACKS_OFFSET_KEY, data.offset);
+            out.putInt(ALBUMS_LIMIT_KEY, data.limit);
+            out.putInt(ALBUMS_OFFSET_KEY, data.offset);
         }
     }
 
@@ -105,107 +104,100 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
         saveData(outState);
     }
 
-    private class AlbumCallbacks implements LoaderManager.LoaderCallbacks<Loaders.AlbumResult> {
+    private class ArtistCallbacks implements LoaderManager.LoaderCallbacks<Loaders.ArtistResult> {
 
         @NonNull
         @Override
-        public Loader<Loaders.AlbumResult> onCreateLoader(int id, Bundle args) {
+        public Loader<Loaders.ArtistResult> onCreateLoader(int id, Bundle args) {
             progress.setVisibility(View.VISIBLE);
-            return new Loaders.Album(getApplicationContext(), idAlbum);
+            return new Loaders.Artist(getApplicationContext(), idArtist);
         }
 
         @Override
-        public void onLoadFinished(@NonNull Loader<Loaders.AlbumResult> loader, Loaders.AlbumResult data) {
+        public void onLoadFinished(@NonNull Loader<Loaders.ArtistResult> loader, Loaders.ArtistResult data) {
             progress.setVisibility(View.GONE);
 
             if (data == null) {
-                Toast.makeText(Album.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(ArtistActivity.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
                 return; //no results
             }
 
             if (data.error != null) {
-                Toast.makeText(Album.this, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
+                Toast.makeText(ArtistActivity.this, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
                 return;
             }
             if (data.aerror != null) {
-                Toast.makeText(Album.this, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
+                Toast.makeText(ArtistActivity.this, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
                 return;
             }
 
-            Model.Album album = data.album;
-            if (album == null) {
-                Toast.makeText(Album.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
-                return;
-            }
+            Model.Artist artist = data.artist;
+            if (artist == null) return;
 
             picture.post(new Runnable() {
                 @Override
                 public void run() {
                     int width = picture.getMeasuredWidth();
-                    Picture.setImageUri(picture, album.imageUri, width, width);
+                    Picture.setImageUri(picture, artist.imageUri, width, width);
                 }
             });
 
-            name.setText(album.name);
-            //todo lipsesc type/date/label/copyrights
+            name.setText(artist.name);
 
             StringBuilder builder = new StringBuilder();
-            if (album.genres != null) {
-                for (String genre : album.genres) {
+            if (artist.genres != null) {
+                for (String genre : artist.genres) {
                     builder.append(" * ");
                     builder.append(genre);
                 }
             }
             genres.setText(builder.toString());
-
-            info.setText(String.format("%s * %s * %s", album.album_type, album.release_date, album.label));
-            adapter.update(album.tracks);
         }
 
         @Override
-        public void onLoaderReset(@NonNull Loader<Loaders.AlbumResult> loader) {
+        public void onLoaderReset(@NonNull Loader<Loaders.ArtistResult> loader) {
 
         }
     }
 
-    private class TracksCallbacks implements LoaderManager.LoaderCallbacks<Loaders.TracksResult> {
+    private class AlbumsCallbacks implements LoaderManager.LoaderCallbacks<Loaders.AlbumsResult> {
 
         private final int limit;
         private final int offset;
 
-        TracksCallbacks(int limit, int offset) {
+        AlbumsCallbacks(int limit, int offset) {
             this.limit = limit;
             this.offset = offset;
         }
 
         @NonNull
         @Override
-        public Loader<Loaders.TracksResult> onCreateLoader(int id, Bundle args) {
+        public Loader<Loaders.AlbumsResult> onCreateLoader(int id, Bundle args) {
             progress.setVisibility(View.VISIBLE);
-            return new Loaders.AlbumTracks(getApplicationContext(), idAlbum, limit, offset);
+            return new Loaders.ArtistAlbums(getApplicationContext(), idArtist, limit, offset);
         }
 
         @Override
-        public void onLoadFinished(@NonNull Loader<Loaders.TracksResult> loader, Loaders.TracksResult data) {
+        public void onLoadFinished(@NonNull Loader<Loaders.AlbumsResult> loader, Loaders.AlbumsResult data) {
             progress.setVisibility(View.GONE);
             if (data == null) {
-                Toast.makeText(Album.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
+                Toast.makeText(ArtistActivity.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
                 return; //no results
             }
 
             if (data.error != null) {
-                Toast.makeText(Album.this, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
+                Toast.makeText(ArtistActivity.this, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
                 return;
             }
             if (data.aerror != null) {
-                Toast.makeText(Album.this, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
+                Toast.makeText(ArtistActivity.this, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
                 return;
             }
-            adapter.update(data.tracks);
+            adapter.update(data.albums);
         }
 
         @Override
-        public void onLoaderReset(@NonNull Loader<Loaders.TracksResult> loader) {
+        public void onLoaderReset(@NonNull Loader<Loaders.AlbumsResult> loader) {
             adapter.update(null);
         }
     }
