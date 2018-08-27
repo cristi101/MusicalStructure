@@ -35,11 +35,7 @@ public class SoundPlayer implements AudioManager.OnAudioFocusChangeListener, Med
         mediaPlayer = MediaPlayer.create(context, uri);
         if (mediaPlayer == null) return;
 
-        int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            mediaPlayer.setOnCompletionListener(this);
-            enableButtons();
-        }
+        enableButtons();
     }
 
     // turn off all the buttons and attach listeners
@@ -129,16 +125,22 @@ public class SoundPlayer implements AudioManager.OnAudioFocusChangeListener, Med
 
     public void play() {
         if (mediaPlayer != null) {
-            if (button == stop) {
-                try {
-                    mediaPlayer.prepare();// play after stop requires calling prepare first
-                } catch (IOException e) {
-                    e.printStackTrace();
+            int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                mediaPlayer.setOnCompletionListener(this);
+
+                if (button == stop) {
+                    try {
+                        mediaPlayer.prepare();// play after stop requires calling prepare first
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+                mediaPlayer.start();
+                turnOn(play);
             }
-            mediaPlayer.start();
-        }
-        turnOn(play);
+        } else turnOn(play);
+
     }
 
     public void releaseMediaPlayer() {
