@@ -114,12 +114,18 @@ public class SoundPlayer implements AudioManager.OnAudioFocusChangeListener, Med
             return;
         }
 
-        if (mediaPlayer != null) mediaPlayer.pause();
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
+            audioManager.abandonAudioFocus(this);
+        }
         turnOn(pause);
     }
 
     public void stop() {
-        if (mediaPlayer != null) mediaPlayer.stop();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            audioManager.abandonAudioFocus(this);
+        }
         turnOn(stop);
     }
 
@@ -171,6 +177,7 @@ public class SoundPlayer implements AudioManager.OnAudioFocusChangeListener, Med
     }
 
     public void onCompletion(MediaPlayer mp) {
+        audioManager.abandonAudioFocus(this);
         button = null;
         setChecked(play, false);
         setChecked(pause, false);
