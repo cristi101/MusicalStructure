@@ -45,4 +45,5 @@
 
     <string name="artist_picture_desc">Artist picture</string>
     <string name="album_picture_desc">Album picture</string>
+    <string name="more">Touch for more</string>
 </resources>
