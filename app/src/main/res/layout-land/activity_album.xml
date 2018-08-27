@@ -62,6 +62,16 @@
                         android:layout_gravity="center"
                         android:gravity="center" />
 
+                    <TextView
+                        android:id="@+id/info"
+                        style="@style/info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0"
+                        android:gravity="center"
+                        tools:text="album * 2018-01-01 * Label" />
+
                 </LinearLayout>
             </LinearLayout>
 

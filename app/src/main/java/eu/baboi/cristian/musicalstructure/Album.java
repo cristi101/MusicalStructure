@@ -39,6 +39,7 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
     private ImageView picture;
     private TextView name;
     private TextView genres;
+    private TextView info;
     private TracksAdapter adapter;
 
     @Override
@@ -54,6 +55,7 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
         picture = findViewById(R.id.picture);
         name = findViewById(R.id.name);
         genres = findViewById(R.id.genres);
+        info = findViewById(R.id.info);
 
         RecyclerView recyclerView = findViewById(R.id.list);
 
@@ -156,6 +158,7 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
             }
             genres.setText(builder.toString());
 
+            info.setText(String.format("%s * %s * %s", album.album_type, album.release_date, album.label));
             adapter.update(album.tracks);
         }
 

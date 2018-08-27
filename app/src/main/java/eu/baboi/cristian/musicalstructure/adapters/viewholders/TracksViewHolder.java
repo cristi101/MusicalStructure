@@ -43,7 +43,7 @@ public class TracksViewHolder extends ViewHolder<Model.Track> implements View.On
 
         trackNo.setText(String.valueOf(track.track_number));
         name.setText(track.name);
-        duration.setText(milisToString(track.duration_ms));
+        duration.setText(Model.milisToString(track.duration_ms));
 
         Model.SimplifiedAlbum album = track.album;
         tvAlbum.setText(String.format("%s * %s * %s", album.name, album.album_type, album.release_date));
@@ -69,16 +69,5 @@ public class TracksViewHolder extends ViewHolder<Model.Track> implements View.On
         mContext.startActivity(intent);
     }
 
-    private String milisToString(long milis) {
-        long s = milis / 1000;
-        long m = s / 60;
-        long h = m / 60;
-        long ss = s % 60;
-        long mm = m % 60;
-        long hh = h % 24;
-        if (hh == 0)
-            return String.format("%02d:%02d", mm, ss);
-        else
-            return String.format("%d:%02d:%02d", hh, mm, ss);
-    }
+
 }

@@ -35,26 +35,70 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="5"
+                android:layout_weight="1.3"
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/name"
-                    style="@style/name"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    tools:text="Song name" />
+                    android:layout_marginLeft="@dimen/gap"
+                    android:layout_marginRight="@dimen/gap"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/track"
+                        style="@style/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/gap"
+                        android:layout_weight="0"
+                        tools:text="1" />
+
+                    <TextView
+                        android:id="@+id/name"
+                        style="@style/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        tools:text="Song name" />
+
+                    <TextView
+                        android:id="@+id/duration"
+                        style="@style/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/gap"
+                        android:layout_weight="0"
+                        tools:text="04:30" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/album"
+                    style="@style/info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/gap"
+                    android:layout_marginRight="@dimen/gap" />
+
+
+                <TextView
+                    android:id="@+id/artists"
+                    style="@style/info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/gap"
+                    android:layout_marginRight="@dimen/gap"
+                    tools:text="Disc 1 * Madonna" />
+
 
                 <LinearLayout
                     android:id="@+id/player"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
+                    android:visibility="gone"
                     tools:visibility="visible">
 
                     <ToggleButton

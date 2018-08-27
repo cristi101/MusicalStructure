@@ -1115,4 +1115,16 @@ public class Model {
         title.setText(String.format("%s %s", bar.getTitle(), info));
     }
 
+    public static String milisToString(long milis) {
+        long s = milis / 1000;
+        long m = s / 60;
+        long h = m / 60;
+        long ss = s % 60;
+        long mm = m % 60;
+        long hh = h % 24;
+        if (hh == 0)
+            return String.format("%02d:%02d", mm, ss);
+        else
+            return String.format("%d:%02d:%02d", hh, mm, ss);
+    }
 }

@@ -11,6 +11,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/gap"
+        android:layout_marginRight="@dimen/gap"
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal">
@@ -26,7 +28,9 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="fitStart"
+            android:layout_gravity="fill"
             android:layout_marginLeft="@dimen/gap"
             android:contentDescription="@string/more"
             android:src="@drawable/more" />
@@ -51,6 +55,8 @@
         style="@style/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/gap"
+        android:layout_marginRight="@dimen/gap"
         android:layout_gravity="center"
         android:gravity="center" />
 

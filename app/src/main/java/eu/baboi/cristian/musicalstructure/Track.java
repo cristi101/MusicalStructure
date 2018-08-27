@@ -34,7 +34,12 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
     }
 
     private ImageView picture;
+    private TextView trackNo;
     private TextView name;
+    private TextView duration;
+    private TextView artists;
+    private TextView tvAlbum;
+
     private ToggleButton play, pause, stop;
     private LinearLayout player;
 
@@ -52,7 +57,11 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
         progress.setVisibility(View.GONE);
 
         picture = findViewById(R.id.picture);
+        trackNo = findViewById(R.id.track);
         name = findViewById(R.id.name);
+        duration = findViewById(R.id.duration);
+        tvAlbum = findViewById(R.id.album);
+        artists = findViewById(R.id.artists);
 
         player = findViewById(R.id.player);
         player.setVisibility(View.GONE);
@@ -125,7 +134,25 @@ public class Track extends AppCompatActivity implements PagingCallbacks.Progress
                 }
             });
 
+            trackNo.setText(String.valueOf(track.track_number));
             name.setText(track.name);
+            duration.setText(Model.milisToString(track.duration_ms));
+
+            Model.SimplifiedAlbum album = track.album;
+            tvAlbum.setText(String.format("%s * %s * %s", album.name, album.album_type, album.release_date));
+
+            StringBuilder builder = new StringBuilder();
+            builder.append("Disc ");
+            builder.append(track.disc_number);
+
+            if (track.artists != null) {
+                for (Model.SimplifiedArtist artist : track.artists) {
+                    builder.append(" * ");
+                    builder.append(artist.name);
+                }
+            }
+            artists.setText(builder.toString());
+
             previewUrl = track.preview_url;
 
             if (!TextUtils.isEmpty(previewUrl)) {
