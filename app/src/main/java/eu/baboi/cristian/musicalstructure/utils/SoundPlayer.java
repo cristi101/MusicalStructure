@@ -20,27 +20,28 @@ public class SoundPlayer implements AudioManager.OnAudioFocusChangeListener, Med
     private ToggleButton play, pause, stop; // all the buttons
 
     public SoundPlayer(Context context, String url, ToggleButton play, ToggleButton pause, ToggleButton stop) {
-        if (context == null) return;
-        if (TextUtils.isEmpty(url)) return;
-
         this.play = play;
         this.pause = pause;
         this.stop = stop;
+        enableButtons();
 
-        Uri uri = Uri.parse(url);
+        if (context == null) return;
+        if (TextUtils.isEmpty(url)) return;
 
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         if (audioManager == null) return;
 
+        Uri uri = Uri.parse(url);
         mediaPlayer = MediaPlayer.create(context, uri);
         if (mediaPlayer == null) return;
 
-        enableButtons();
+        mediaPlayer.setOnCompletionListener(this);
     }
 
     // turn off all the buttons and attach listeners
     private void enableButtons() {
         button = null;
+
         setChecked(play, false);
         setChecked(pause, false);
         setChecked(stop, false);
@@ -74,11 +75,19 @@ public class SoundPlayer implements AudioManager.OnAudioFocusChangeListener, Med
                 else setChecked(button, true);//force current button to on state
             }
         });
+
+        setEnabled(play, true);
+        setEnabled(pause, true);
+        setEnabled(stop, true);
     }
 
     // detach listeners and turn off all the buttons
     private void disableButtons() {
         button = null;
+
+        setEnabled(play, false);
+        setEnabled(pause, false);
+        setEnabled(stop, false);
 
         setListener(play, null);
         setListener(pause, null);
@@ -87,6 +96,11 @@ public class SoundPlayer implements AudioManager.OnAudioFocusChangeListener, Med
         setChecked(play, false);
         setChecked(pause, false);
         setChecked(stop, false);
+    }
+
+
+    private void setEnabled(ToggleButton button, boolean enabled) {
+        if (button != null) button.setEnabled(enabled);
     }
 
     // attach a listener to a button
@@ -133,8 +147,6 @@ public class SoundPlayer implements AudioManager.OnAudioFocusChangeListener, Med
         if (mediaPlayer != null) {
             int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
             if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                mediaPlayer.setOnCompletionListener(this);
-
                 if (button == stop) {
                     try {
                         mediaPlayer.prepare();// play after stop requires calling prepare first

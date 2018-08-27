@@ -44,13 +44,16 @@ public class PagingCallbacks<T, P extends Model.Paging<T>, VH extends ViewHolder
     public void onLoadFinished(Loader<Loaders.PagingResult<T, P>> loader, Loaders.PagingResult<T, P> data) {
         if (progress != null) progress.setVisibility(View.GONE);
 
-        if (data == null) return;
+        if (data == null) {
+            Toast.makeText(activity, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
+            return;
+        }
         if (data.error != null) {
-            Toast.makeText(activity, String.format("Search error:\n%s", data.error.message), Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
             return;
         }
         if (data.aerror != null) {
-            Toast.makeText(activity, String.format("Authentication error:\n%s", data.aerror.error_description), Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
             return;
         }
         adapter.update(data.paging);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import eu.baboi.cristian.musicalstructure.Album;
 import eu.baboi.cristian.musicalstructure.R;
 import eu.baboi.cristian.musicalstructure.utils.Picture;
+import eu.baboi.cristian.musicalstructure.utils.net.Loaders;
 import eu.baboi.cristian.musicalstructure.utils.net.Model;
 
 public class AlbumsViewHolder extends ViewHolder<Model.SimplifiedAlbum> implements View.OnClickListener {
@@ -65,6 +66,7 @@ public class AlbumsViewHolder extends ViewHolder<Model.SimplifiedAlbum> implemen
 
     public void onClick(View v) {
         if (TextUtils.isEmpty(idAlbum)) return;
+        if (Loaders.noNetwork(mContext)) return;
         Intent intent = new Intent(mContext, Album.class);
         intent.putExtra(Model.ID_KEY, idAlbum);
         mContext.startActivity(intent);

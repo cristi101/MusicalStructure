@@ -27,7 +27,8 @@
                 android:contentDescription="@string/artist_picture_desc"
                 android:padding="@dimen/gap"
                 android:scaleType="centerCrop"
-                android:src="@drawable/spotify_logo_green" />
+                android:src="@drawable/spotify_icon_green"
+                tools:src="@drawable/cleopatra" />
 
             <TextView
                 android:id="@+id/name"
@@ -38,7 +39,8 @@
                 android:layout_marginLeft="@dimen/gap"
                 android:layout_marginRight="@dimen/gap"
                 android:layout_weight="0"
-                android:gravity="center" />
+                android:gravity="center"
+                tools:text="name and surname" />
 
             <TextView
                 android:id="@+id/genres"

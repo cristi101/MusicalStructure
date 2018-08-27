@@ -116,19 +116,25 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
         public void onLoadFinished(@NonNull Loader<Loaders.AlbumResult> loader, Loaders.AlbumResult data) {
             progress.setVisibility(View.GONE);
 
-            if (data == null) return; //no results
+            if (data == null) {
+                Toast.makeText(Album.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
+                return; //no results
+            }
 
             if (data.error != null) {
-                Toast.makeText(Album.this, String.format("Search error:\n%s", data.error.message), Toast.LENGTH_LONG).show();
+                Toast.makeText(Album.this, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
                 return;
             }
             if (data.aerror != null) {
-                Toast.makeText(Album.this, String.format("Authentication error:\n%s", data.aerror.error_description), Toast.LENGTH_LONG).show();
+                Toast.makeText(Album.this, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
                 return;
             }
 
             Model.Album album = data.album;
-            if (album == null) return;
+            if (album == null) {
+                Toast.makeText(Album.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
+                return;
+            }
 
             picture.post(new Runnable() {
                 @Override
@@ -179,14 +185,17 @@ public class Album extends AppCompatActivity implements PagingCallbacks.Progress
         @Override
         public void onLoadFinished(@NonNull Loader<Loaders.TracksResult> loader, Loaders.TracksResult data) {
             progress.setVisibility(View.GONE);
-            if (data == null) return; //no results
+            if (data == null) {
+                Toast.makeText(Album.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
+                return; //no results
+            }
 
             if (data.error != null) {
-                Toast.makeText(Album.this, String.format("Search error:\n%s", data.error.message), Toast.LENGTH_LONG).show();
+                Toast.makeText(Album.this, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
                 return;
             }
             if (data.aerror != null) {
-                Toast.makeText(Album.this, String.format("Authentication error:\n%s", data.aerror.error_description), Toast.LENGTH_LONG).show();
+                Toast.makeText(Album.this, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
                 return;
             }
             adapter.update(data.tracks);

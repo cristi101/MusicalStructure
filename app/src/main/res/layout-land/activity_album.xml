@@ -30,10 +30,11 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:background="@color/frame"
-                    android:contentDescription="@string/artist_picture_desc"
+                    android:contentDescription="@string/album_picture_desc"
                     android:padding="@dimen/gap"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/spotify_logo_green" />
+                    android:src="@drawable/spotify_icon_green"
+                    tools:src="@drawable/cleopatra" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -51,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        tools:text="nume si prenume" />
+                        tools:text="Album title" />
 
                     <TextView
                         android:id="@+id/genres"

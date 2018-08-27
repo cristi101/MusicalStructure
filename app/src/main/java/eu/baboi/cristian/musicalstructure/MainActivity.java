@@ -444,6 +444,7 @@ public class MainActivity extends AppCompatActivity
             Loaders.destroyLoader(MainActivity.this, loader.getId());
 
             if (data == null) {
+                Toast.makeText(MainActivity.this, "Error during authentication!", Toast.LENGTH_LONG).show();
                 finish_locking();
                 return;
             }
@@ -488,6 +489,7 @@ public class MainActivity extends AppCompatActivity
             Loaders.destroyLoader(MainActivity.this, loader.getId());
 
             if (data == null) {
+                Toast.makeText(MainActivity.this, "Error getting access token!", Toast.LENGTH_LONG).show();
                 finish_locking();
                 return;
             }
@@ -539,13 +541,16 @@ public class MainActivity extends AppCompatActivity
         public void onLoadFinished(@NonNull Loader<Loaders.SearchResult> loader, Loaders.SearchResult data) {
             progress.setVisibility(View.GONE);
 
-            if (data == null) return; //no search results
+            if (data == null) {
+                Toast.makeText(MainActivity.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
+                return; //no search results
+            }
             if (data.error != null) {
-                Toast.makeText(MainActivity.this, String.format("Search error:\n%s", data.error.message), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
                 return;
             }
             if (data.aerror != null) {
-                Toast.makeText(MainActivity.this, String.format("Authentication error:\n%s", data.aerror.error_description), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
                 return;
             }
 

@@ -117,14 +117,17 @@ public class Artist extends AppCompatActivity implements PagingCallbacks.Progres
         public void onLoadFinished(@NonNull Loader<Loaders.ArtistResult> loader, Loaders.ArtistResult data) {
             progress.setVisibility(View.GONE);
 
-            if (data == null) return; //no results
+            if (data == null) {
+                Toast.makeText(Artist.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
+                return; //no results
+            }
 
             if (data.error != null) {
-                Toast.makeText(Artist.this, String.format("Search error:\n%s", data.error.message), Toast.LENGTH_LONG).show();
+                Toast.makeText(Artist.this, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
                 return;
             }
             if (data.aerror != null) {
-                Toast.makeText(Artist.this, String.format("Authentication error:\n%s", data.aerror.error_description), Toast.LENGTH_LONG).show();
+                Toast.makeText(Artist.this, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -177,14 +180,17 @@ public class Artist extends AppCompatActivity implements PagingCallbacks.Progres
         @Override
         public void onLoadFinished(@NonNull Loader<Loaders.AlbumsResult> loader, Loaders.AlbumsResult data) {
             progress.setVisibility(View.GONE);
-            if (data == null) return; //no results
+            if (data == null) {
+                Toast.makeText(Artist.this, "There is something wrong with your Internet connection", Toast.LENGTH_LONG).show();
+                return; //no results
+            }
 
             if (data.error != null) {
-                Toast.makeText(Artist.this, String.format("Search error:\n%s", data.error.message), Toast.LENGTH_LONG).show();
+                Toast.makeText(Artist.this, String.format("Error status: %d\n%s", data.error.status, data.error.message), Toast.LENGTH_LONG).show();
                 return;
             }
             if (data.aerror != null) {
-                Toast.makeText(Artist.this, String.format("Authentication error:\n%s", data.aerror.error_description), Toast.LENGTH_LONG).show();
+                Toast.makeText(Artist.this, String.format("Authentication error: %s\n%s", data.aerror.error, data.aerror.error_description), Toast.LENGTH_LONG).show();
                 return;
             }
             adapter.update(data.albums);

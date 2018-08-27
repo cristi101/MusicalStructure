@@ -24,10 +24,11 @@
                 android:layout_weight="0"
                 android:adjustViewBounds="true"
                 android:background="@color/frame"
-                android:contentDescription="@string/artist_picture_desc"
+                android:contentDescription="@string/album_picture_desc"
                 android:padding="@dimen/gap"
                 android:scaleType="centerCrop"
-                android:src="@drawable/cleopatra" />
+                android:src="@drawable/spotify_icon_green"
+                tools:src="@drawable/cleopatra" />
 
             <TextView
                 android:id="@+id/name"
@@ -37,7 +38,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="0"
                 android:gravity="center"
-                tools:text="Te las cu inima" />
+                tools:text="Song name" />
 
             <LinearLayout
                 android:id="@+id/player"
@@ -45,7 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:visibility="visible">
 
                 <ToggleButton
                     android:id="@+id/play"

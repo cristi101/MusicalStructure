@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import eu.baboi.cristian.musicalstructure.R;
 import eu.baboi.cristian.musicalstructure.Track;
+import eu.baboi.cristian.musicalstructure.utils.net.Loaders;
 import eu.baboi.cristian.musicalstructure.utils.net.Model;
 
 public class SimplifiedTracksViewHolder extends ViewHolder<Model.SimplifiedTrack> implements View.OnClickListener {
@@ -58,6 +59,7 @@ public class SimplifiedTracksViewHolder extends ViewHolder<Model.SimplifiedTrack
 
     public void onClick(View v) {
         if (TextUtils.isEmpty(idTrack)) return;
+        if (Loaders.noNetwork(mContext)) return;
         Intent intent = new Intent(mContext, Track.class);
         intent.putExtra(Model.ID_KEY, idTrack);
         mContext.startActivity(intent);
