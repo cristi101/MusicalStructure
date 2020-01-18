@@ -42,7 +42,8 @@ public class Model {
     public static final String LOGOUT_URL = "https://accounts.spotify.com/en/logout";
 
     public static final String CLIENT = "05865a6984e2407f980620ee17a2368e";
-    private static final String SECRET = "{zQ%NE0EC'{$)zyORTzH5Fw,L+)Gz $T";
+    private static final String SECRET = "|$K*YKqQE'{$)#xTFXzX*Mw(F*}Y- uT";
+
     public static final String PASSWORD = "once upon a time";
     public static final String PASSWORD_KEY = "password";
 
@@ -984,7 +985,9 @@ public class Model {
         SecureRandom random = new SecureRandom();
         byte[] buffer = new byte[length];
         random.nextBytes(buffer);
-        return Base64.encodeToString(buffer, Base64.DEFAULT);
+
+        String s = Base64.encodeToString(buffer, Base64.URL_SAFE);
+        return s.substring(0, length);
     }
 
     // add an URL encoded parameter
@@ -1007,7 +1010,10 @@ public class Model {
 
     // construct Basic Authorization token
     private static String getAuthorizationCode(DataStore dataStore) {
-        String s = String.format("%s:%s", CLIENT, Key.decodeApiKey(getPassword(dataStore), SECRET));
+        String str = Key.decodeApiKey(getPassword(dataStore), SECRET);
+        //here you can verify the secret api key
+        //Log.e("===CODE===",str);
+        String s = String.format("%s:%s", CLIENT, str);
         return Base64.encodeToString(s.getBytes(Charset.forName("UTF-8")), Base64.NO_WRAP);
     }
 

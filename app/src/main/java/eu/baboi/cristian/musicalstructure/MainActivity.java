@@ -155,7 +155,9 @@ public class MainActivity extends AppCompatActivity
                 if (dialog != null) {
                     EditText text = dialog.findViewById(R.id.password);
                     String password = text.getText().toString().trim();
-
+                    //Here you can encode the secret api key
+                    //String scrt=Key.encodeApiKey(password, Model.RSECRET);
+                    //Log.e("===SECRET===",scrt);
                     dialog.dismiss();
                     dialog = null;
 
@@ -381,9 +383,10 @@ public class MainActivity extends AppCompatActivity
         //return from login
         Uri uri = data.getData();
         if (uri == null) return;
-
-        String state = uri.getQueryParameter(Model.STATE);
-        if (!this.state.equals(state)) return;
+        String rstate = uri.getQueryParameter(Model.STATE);
+        if (!(state.equals(rstate))) {
+            return;
+        }
 
         String error = uri.getQueryParameter(Model.ERROR);
         String code = uri.getQueryParameter(Model.CODE);
